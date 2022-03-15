@@ -3,6 +3,8 @@ import { Drawer, Button, Divider } from "@mantine/core";
 import styled, { ThemeContext } from "styled-components";
 import { AiFillMessage } from "react-icons/ai";
 import { useViewportSize } from "@mantine/hooks";
+import { useAppSelector, useAppDispatch } from "../../store/hook";
+import { changeSidebar } from "../../store/slices/sidebar";
 const DrawerWrapper = styled(Drawer)`
   width: ${(props) => props.theme.sidebarWidth};
   background: rgb(255, 255, 255);
@@ -42,20 +44,28 @@ function SidebarComponent() {
   const { width } = useViewportSize();
   const themeContext = useContext(ThemeContext);
   const [opened, setOpened] = useState(true);
+  useAppSelector;
+  const sidebarState = useAppSelector((state) => state.sidebar.open);
+  const dispatch = useAppDispatch();
+  const [showCloseBtn, setShowCloseBtn] = useState(false);
+
   useEffect(() => {
     // console.log("TYPE 1", typeof width.toString());
-    if (width <= parseInt(themeContext.breakSM) && opened) {
-      console.log("AAA");
-      setOpened(!opened);
+    if (width <= parseInt(themeContext.breakSM) && sidebarState) {
+      dispatch(changeSidebar({}));
+      setShowCloseBtn(true);
     }
-    if (width >= parseInt(themeContext.breakSM) && !opened) {
-      console.log("AAA");
-      setOpened(!opened);
+    if (width >= parseInt(themeContext.breakSM) && !sidebarState) {
+      dispatch(changeSidebar({}));
+      setShowCloseBtn(false);
     }
   }, [width]);
+  const closeEvent = () => {
+    dispatch(changeSidebar({}));
+  };
   return (
     <>
-      <DrawerWrapper trapFocus={false} withOverlay={true} opened={opened} withCloseButton={false} onClose={() => setOpened(false)} title="Drawer Title" padding="xl" size="xl">
+      <DrawerWrapper trapFocus={false} withOverlay={true} opened={sidebarState} withCloseButton={showCloseBtn} onClose={() => closeEvent()} title="Drawer Title" padding="xl" size="xl">
         <DrawerMenu>
           <DrawerMenuItem>Dashboards</DrawerMenuItem>
           <DrawerItem>
@@ -65,7 +75,6 @@ function SidebarComponent() {
           </DrawerItem>
         </DrawerMenu>
         <Divider my="sm" variant="dashed" />
-
         <DrawerMenu>
           <DrawerMenuItem>Manager Product</DrawerMenuItem>
           <DrawerItem></DrawerItem>

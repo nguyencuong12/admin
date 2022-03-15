@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { ActionIcon, Burger } from "@mantine/core";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useAppSelector, useAppDispatch } from "../../store/hook";
+import { changeSidebar } from "../../store/slices/sidebar";
+import Link from "next/link";
 
 const NavbarWrapper = styled.div`
   margin-left: ${(props) => props.theme.sidebarWidth};
@@ -33,6 +36,7 @@ const NavbarContent = styled.nav`
 `;
 const NavbarLogo = styled.h2`
   font-size: 20px;
+  cursor: pointer;
 `;
 
 const NavbarControl = styled.div`
@@ -40,19 +44,22 @@ const NavbarControl = styled.div`
   align-items: center;
 `;
 const NavbarMenuItem = styled.div``;
-
 const NavbarComponent = () => {
-  const [opened, setOpened] = useState(false);
+  const dispatch = useAppDispatch();
 
+  const sidebarState = useAppSelector((state) => state.sidebar.open);
   const clickBurger = () => {
-    setOpened(!opened);
+    dispatch(changeSidebar({}));
   };
   return (
     <NavbarWrapper>
       <NavbarContent>
-        <NavbarBurger opened={opened} onClick={() => clickBurger()} />
+        <NavbarBurger opened={sidebarState} onClick={() => clickBurger()} />
         {/* BURGER */}
-        <NavbarLogo>Logo</NavbarLogo>
+        <Link href="/">
+          <NavbarLogo>Logo</NavbarLogo>
+        </Link>
+
         <NavbarControl>
           <ActionIcon variant="transparent" size="md">
             <AiOutlineSearch size={40}></AiOutlineSearch>

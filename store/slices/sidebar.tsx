@@ -9,12 +9,13 @@ export const sidebarSlice = createSlice({
   name: "sidebar",
   initialState,
   reducers: {
-    change: (state, action) => {
+    changeSidebar: (state, action: any) => {
+      console.log("CHANGE CALL !!!");
       state.open = !state.open;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { change } = sidebarSlice.actions;
+export const { changeSidebar } = sidebarSlice.actions;
 export default sidebarSlice.reducer;
