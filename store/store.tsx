@@ -5,10 +5,12 @@ import { createSlice, configureStore } from "@reduxjs/toolkit";
 //   sidebar: sidebarReducer,
 // };
 import { default as sidebarReducer } from "../store/slices/sidebar";
+import { default as productReducer } from "../store/slices/product";
 
 export const store = configureStore({
   reducer: {
     sidebar: sidebarReducer,
+    product: productReducer,
   },
 });
 

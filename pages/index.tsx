@@ -72,6 +72,7 @@ const HomePage = () => {
   useEffect(() => {}, [products]);
   const test = async () => {
     let response = await ProductAPI.getAllProduct();
+
     console.log("response", response);
     setProducts(response.data.products);
     console.log("Products", products);
