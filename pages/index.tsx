@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Pagination, Table, Button, Modal } from "@mantine/core";
+import { Pagination, Table, Button, Modal, LoadingOverlay, DEFAULT_THEME } from "@mantine/core";
 import Link from "next/link";
 import { ProductAPI } from "../api";
 const HomePageWrapper = styled.div``;
@@ -31,28 +31,34 @@ const TableData = styled(Table)``;
 
 const HomePage = () => {
   interface ProductProps {
+    title: string;
+    price: string;
+    hashtag: Array<string>;
+    description: string;
     image: string;
     _id: string;
   }
   const [products, setProducts] = useState<ProductProps[] | []>([]);
+  const [activePage, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  const rows = products.map((element, index) => (
+  const rows = products.map((element) => (
     <tr key={element._id}>
       <td>
-        <img style={{ height: "100px" }} alt="CUONG" src={`data:image/jpeg;base64,${products[index]?.image}`}></img>
+        <h4> {element.title}</h4>
       </td>
       <td>
-        <img style={{ height: "100px" }} alt="CUONG" src={`data:image/jpeg;base64,${products[index]?.image}`}></img>
+        <img style={{ height: "100px" }} alt="CUONG" src={`data:image/jpeg;base64,${element?.image}`}></img>
       </td>
       <td>
-        <img style={{ height: "100px" }} alt="CUONG" src={`data:image/jpeg;base64,${products[index]?.image}`}></img>
+        <span>{element.description}</span>
       </td>
       <td>
-        <img style={{ height: "100px" }} alt="CUONG" src={`data:image/jpeg;base64,${products[index]?.image}`}></img>
+        <span>{element.price}</span>
       </td>
       <td>
         <GroupButton>
-          <Link href="/product/edit">
+          <Link href={`/product/${element._id}`}>
             <Button size={"xs"} color={"indigo"}>
               Edit
             </Button>
@@ -65,18 +71,20 @@ const HomePage = () => {
       </td>
     </tr>
   ));
-  const [activePage, setPage] = useState(2);
-  useEffect(() => {
-    test();
-  }, []);
-  useEffect(() => {}, [products]);
-  const test = async () => {
-    let response = await ProductAPI.getAllProduct();
 
-    console.log("response", response);
-    setProducts(response.data.products);
-    console.log("Products", products);
+  useEffect(() => {
+    fetchAllProduct();
+  }, []);
+
+  const fetchAllProduct = async () => {
+    setLoading(true);
+    let response = await ProductAPI.getAllProduct();
+    if (response.status === 200) {
+      setLoading(false);
+      setProducts(response.data.products);
+    }
   };
+
   return (
     <HomePageWrapper>
       <AddButton>
@@ -86,19 +94,21 @@ const HomePage = () => {
           </Button>
         </Link>
       </AddButton>
-
-      <TableData verticalSpacing="xs" striped highlightOnHover>
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th>Product Image</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </TableData>
+      <div style={{ width: "100%", position: "relative" }}>
+        <LoadingOverlay visible={loading} />
+        <TableData verticalSpacing="xs" striped highlightOnHover>
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Product Image</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </TableData>
+      </div>
       <PaginationWrapper>
         <Pagination
           total={130 / 10}

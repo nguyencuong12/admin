@@ -4,6 +4,15 @@ const Product = {
   getAllProduct: async () => {
     return await axios.get(url);
   },
+  getProduct: async (id: string) => {
+    return await axios({
+      method: "GET",
+      url: url,
+      params: {
+        id: id,
+      },
+    });
+  },
   createProduct: async (data: any) => {
     console.log("CALL", data);
     return await axios({

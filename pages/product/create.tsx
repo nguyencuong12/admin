@@ -20,12 +20,13 @@ const createProductPage = () => {
     productImage?: File;
     productHashTag?: string;
   }
-  const [image, setImage] = useState<File>();
   const [formData, setFormData] = useState<formProps>();
-
   const getDropFile = (file: File) => {
-    console.log("GET DROPFILE", file);
-    setImage(file);
+    // console.log("GET DROPFILE", file);
+    setFormData({
+      ...formData,
+      ["productImage"]: file,
+    });
   };
   const onFormChange = (event: any, type: string) => {
     let target = event.target.value;
@@ -35,20 +36,44 @@ const createProductPage = () => {
     });
   };
   const onCreate = async () => {
-    let form = new FormData();
-    form.append("productName", formData?.productName || "");
-    form.append("productDescription", formData?.productDescription || "");
-    form.append("productPrice", formData?.productPrice || "");
-    form.append("productHashtag", formData?.productHashTag || "");
-    form.append("image", image || "");
-    try {
+    if (formData?.productHashTag && formData?.productName && formData?.productPrice && formData?.productDescription && formData.productImage) {
+      let form = new FormData();
+      const hashTag = formData?.productHashTag?.replace(/#|_/g, "");
+      const hashTagArr = hashTag?.split(" ");
+      form.append("title", formData?.productName || "");
+      form.append("description", formData?.productDescription || "");
+      form.append("price", formData?.productPrice || "");
+      hashTagArr?.map((instance) => {
+        form.append("hashtag", instance || "");
+      });
+      form.append("image", formData?.productImage || "");
       let response = await ProductAPI.createProduct(form);
-      console.log("response", response);
-    } catch (err) {
-      console.log("err", err);
+      if (response) {
+        window.alert("CREATE PRODUCT SUCCESS");
+      }
+      // if (response.status === 200) {
+      //   window.alert("CREATE PRODUCT SUCCESS");
+      // }
+    } else {
+      let status = "";
+      if (!formData?.productName) {
+        status += "Missing Product Name ,";
+      }
+      if (!formData?.productDescription) {
+        status += "Missing Description ,";
+      }
+      if (!formData?.productPrice) {
+        status += "Missing Price ,";
+      }
+      if (!formData?.productImage) {
+        status += "Missing Image ,";
+      }
+      if (!formData?.productHashTag) {
+        status += "Missing HashTag ,";
+      }
+
+      window.alert(`Missing Fields :  ${status}`);
     }
-    // form.append("productName");
-    // console.log("FORMDATA", formData);
   };
 
   return (
