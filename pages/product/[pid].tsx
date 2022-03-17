@@ -28,9 +28,9 @@ const ViewProduct = () => {
 
   const onUpdate = async (product: any) => {
     console.log("type", img);
-    let test = "/+-=14,;'214=-=";
+    // let test = "/+-=14,;'214=-=";
     let formData = new FormData();
-    formData.append("image", test);
+    formData.append("test", img);
     let response = await ProductAPI.updateProduct(formData);
     console.log("response", response);
   };
