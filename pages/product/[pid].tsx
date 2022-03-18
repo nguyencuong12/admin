@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { ProductAPI } from "../../api";
-import { ProductInf } from "../../interface";
+import { ProductInf, sweetAlertInf } from "../../interface";
 import { FormInputProduct } from "../../components";
 
 import { img } from "./base64";
+import alertMessage from "../../components/toast";
 const ViewProduct = () => {
   const router = useRouter();
   const { pid } = router.query;
@@ -27,11 +28,34 @@ const ViewProduct = () => {
   useEffect(() => {}, [product]);
 
   const onUpdate = async (product: any) => {
-    console.log("type", img);
-    // let test = "/+-=14,;'214=-=";
     let formData = new FormData();
-    formData.append("test", img);
+    Object.keys(product || "").map((key) => {
+      if (key === "image") {
+        if (typeof product.image === "string") {
+          formData.append("image", product.image);
+        } else {
+          formData.append("imageUpdate", product.image);
+        }
+        // formData.append("imageUpdate", product.image);
+      } else {
+        let data = product[key as keyof ProductInf]?.toString();
+        formData.append(key, data || "");
+      }
+    });
+    // formData.append("test", img);
+
     let response = await ProductAPI.updateProduct(formData);
+    if (response) {
+      let objectAlert: sweetAlertInf = {
+        title: "Update Status",
+        content: "Update Product Success !!",
+        icon: "success",
+      };
+      let status = await alertMessage(objectAlert);
+      if (status) {
+        router.push("/");
+      }
+    }
     console.log("response", response);
   };
 

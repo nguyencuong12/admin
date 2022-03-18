@@ -4,5 +4,5 @@ export default interface createProduct {
   type?: string;
   image?: File;
   price?: string;
-  hashtag?: Array<string>;
+  hashtag?: string;
 }

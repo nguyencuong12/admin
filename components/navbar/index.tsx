@@ -59,7 +59,6 @@ const NavbarComponent = () => {
         <Link href="/">
           <NavbarLogo>Logo</NavbarLogo>
         </Link>
-
         <NavbarControl>
           <ActionIcon variant="transparent" size="md">
             <AiOutlineSearch size={40}></AiOutlineSearch>

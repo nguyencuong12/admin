@@ -5,6 +5,7 @@ import { DropboxComponent } from "../../components";
 import { ProductAPI } from "../../api";
 import { createProductInf, ProductInf } from "../../interface";
 // import { keys } from "ts-transformer-keys";
+
 const InputWrapper = styled.div`
   width: 70%;
   margin: 0 auto;
@@ -22,14 +23,27 @@ interface formProductProps {
 }
 const formProduct = (props: formProductProps) => {
   const { title, btnTitle, callback, product } = props;
+  const [formData, setFormData] = useState<ProductInf>();
+
   useEffect(() => {
-    setFormData(product);
+    if (product) {
+      let productLength = product.hashtag?.length;
+      let hashtagString: string = "";
+      for (let i = 0; i < productLength!; i++) {
+        hashtagString += product.hashtag![i] + " ";
+      }
+      hashtagString.slice(0, -1);
+      //REMOVE LAST CHARACTER IS SPACE
+
+      setFormData({
+        ...product,
+        hashtag: hashtagString,
+      });
+    }
   }, [product]);
 
-  const [formData, setFormData] = useState<ProductInf>();
   const getDropFile = (file: File) => {
     // console.log("GET DROPFILE", file);
-
     setFormData({
       ...formData,
       ["image"]: file,
@@ -57,6 +71,7 @@ const formProduct = (props: formProductProps) => {
           <Textarea placeholder="Hashtag" label="Hashtag" value={formData?.hashtag ? formData?.hashtag : ""} required onChange={(e) => onFormChange(e, "hashtag")} />
           <Button
             onClick={() => {
+              console.log("FORMDATA", formData?.hashtag);
               callback(formData);
             }}
           >

@@ -3,8 +3,15 @@ import { ProductInf } from "../../interface/";
 
 let url = "/product";
 const Product = {
-  getAllProduct: async () => {
-    return await axios.get(url);
+  getAllProduct: async (page: number) => {
+    return await axios({
+      method: "GET",
+      url: url,
+      params: {
+        currentPage: page,
+      },
+    });
+    // return await axios.get(url);
   },
   getProduct: async (id: any) => {
     console.log("ID asdasd", id);
@@ -35,6 +42,14 @@ const Product = {
       headers: { "Content-Type": "multipart/form-data" },
     });
   },
-  deleteProduct: () => {},
+  deleteProduct: async (id: any) => {
+    return await axios({
+      method: "DELETE",
+      url: url,
+      params: {
+        id: id,
+      },
+    });
+  },
 };
 export default Product;

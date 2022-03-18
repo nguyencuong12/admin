@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Pagination, Table, Button, Modal, LoadingOverlay, DEFAULT_THEME } from "@mantine/core";
+import { FaSearch } from "react-icons/fa";
+
+import { ActionIcon, Pagination, Table, Button, Modal, LoadingOverlay, DEFAULT_THEME, Group, Input } from "@mantine/core";
 import Link from "next/link";
 import { ProductAPI } from "../api";
+import { DeleteModal } from "../components";
+import alertMessage from "../components/toast";
+import { sweetAlertInf } from "../interface";
+
+// import { DialogDelete } from "../components";
 const HomePageWrapper = styled.div``;
 
 const AddButton = styled.div`
-  height: 60px;
-  display: flex;
-  align-items: center;
-  width: 30%;
-  margin: 0 auto;
-  padding: 40px 0px;
+  width: 20%;
 `;
 
 const GroupButton = styled.div`
@@ -41,6 +43,12 @@ const HomePage = () => {
   const [products, setProducts] = useState<ProductProps[] | []>([]);
   const [activePage, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [totalPage, setTotalPage] = useState(1);
+  const [dialogDelete, setDialogDelete] = useState(false);
+  const [selectProduct, setSelectProduct] = useState<string>();
+  useEffect(() => {
+    fetchAllProduct();
+  }, []);
 
   const rows = products.map((element) => (
     <tr key={element._id}>
@@ -48,7 +56,7 @@ const HomePage = () => {
         <h4> {element.title}</h4>
       </td>
       <td>
-        <img style={{ height: "100px" }} alt="CUONG" src={`data:image/jpeg;base64,${element?.image}`}></img>
+        <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={`data:image/jpeg;base64,${element?.image}`}></img>
       </td>
       <td>
         <span>{element.description}</span>
@@ -64,7 +72,14 @@ const HomePage = () => {
             </Button>
           </Link>
 
-          <Button size={"xs"} color={"red"}>
+          <Button
+            size={"xs"}
+            color={"red"}
+            onClick={() => {
+              setSelectProduct(element._id);
+              setDialogDelete(true);
+            }}
+          >
             Delete
           </Button>
         </GroupButton>
@@ -72,29 +87,59 @@ const HomePage = () => {
     </tr>
   ));
 
-  useEffect(() => {
-    fetchAllProduct();
-  }, []);
-
   const fetchAllProduct = async () => {
     setLoading(true);
-    let response = await ProductAPI.getAllProduct();
+    let response = await ProductAPI.getAllProduct(activePage);
+    console.log("RESPONSE", response);
     if (response.status === 200) {
       setLoading(false);
-      setProducts(response.data.products);
+      setProducts(response.data.products.product);
+      setTotalPage(response.data.products.count);
     }
+  };
+  const onDeleteCallback = async (deleteStatus: boolean) => {
+    if (deleteStatus) {
+      console.log("select", selectProduct);
+      let response = await ProductAPI.deleteProduct(selectProduct);
+      if (response) {
+        let objectAlert: sweetAlertInf = {
+          title: "Status",
+          content: "Delete Success",
+          icon: "success",
+        };
+        fetchAllProduct();
+        setSelectProduct("");
+        await alertMessage(objectAlert);
+      }
+    }
+    setDialogDelete(false);
   };
 
   return (
     <HomePageWrapper>
-      <AddButton>
-        <Link href="/product/create">
-          <Button size={"xs"} color={"teal"} fullWidth={true} component={"a"} href="/product/create">
-            Add
-          </Button>
-        </Link>
-      </AddButton>
-      <div style={{ width: "100%", position: "relative" }}>
+      <DeleteModal show={dialogDelete} deleteFunc={onDeleteCallback}></DeleteModal>
+
+      <Group position="apart" style={{ paddingBottom: "20px" }}>
+        <Input
+          // icon={<At />}
+
+          size="sm"
+          placeholder="Search Product"
+          rightSection={
+            <ActionIcon variant="transparent">
+              <FaSearch size={20}></FaSearch>
+            </ActionIcon>
+          }
+        />
+        <AddButton>
+          <Link href="/product/create">
+            <Button size={"sm"} color={"teal"} fullWidth={true} component={"a"} href="/product/create">
+              Add
+            </Button>
+          </Link>
+        </AddButton>
+      </Group>
+      <div style={{ width: "100%", position: "relative", marginTop: "40px" }}>
         <LoadingOverlay visible={loading} />
         <TableData verticalSpacing="xs" striped highlightOnHover>
           <thead>
@@ -111,11 +156,19 @@ const HomePage = () => {
       </div>
       <PaginationWrapper>
         <Pagination
-          total={130 / 10}
+          // Math.ceil(total_items/limit);
+          total={Math.ceil(totalPage / 4)}
           color="cyan"
           page={activePage}
-          onChange={(page: number) => {
-            console.log("aassasa", page);
+          onChange={async (page: number) => {
+            setPage(page);
+            setLoading(true);
+            let response = await ProductAPI.getAllProduct(page);
+            if (response.status === 200) {
+              setLoading(false);
+              setProducts(response.data.products.product);
+              setTotalPage(response.data.products.count);
+            }
           }}
         />
       </PaginationWrapper>

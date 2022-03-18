@@ -4,5 +4,5 @@ export default interface Product {
   type?: string;
   image?: File;
   price?: string;
-  hashtag?: Array<string>;
+  hashtag?: string | Array<string>;
 }
