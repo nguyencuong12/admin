@@ -43,7 +43,6 @@ const formProduct = (props: formProductProps) => {
   }, [product]);
 
   const getDropFile = (file: File) => {
-    // console.log("GET DROPFILE", file);
     setFormData({
       ...formData,
       ["image"]: file,
