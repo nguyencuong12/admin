@@ -30,14 +30,14 @@ const formProduct = (props: formProductProps) => {
       let productLength = product.hashtag?.length;
       let hashtagString: string = "";
       for (let i = 0; i < productLength!; i++) {
-        hashtagString += product.hashtag![i] + " ";
+        hashtagString += "#" + product.hashtag![i];
       }
-      hashtagString.slice(0, -1);
-      //REMOVE LAST CHARACTER IS SPACE
-
+      var hashTag: string = hashtagString.substring(1);
+      //REMOVE FIEST CHARACTER IS SPACE ~!!!!
       setFormData({
         ...product,
-        hashtag: hashtagString,
+        hashtag: hashTag,
+        // hashtag: hashtagString,
       });
     }
   }, [product]);

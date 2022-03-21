@@ -1,2 +1,4 @@
 import { default as ProductAPI } from "./product/product";
-export { ProductAPI };
+import { default as SearchAPI } from "./search/search";
+
+export { ProductAPI, SearchAPI };

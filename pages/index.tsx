@@ -4,7 +4,7 @@ import { FaSearch } from "react-icons/fa";
 
 import { ActionIcon, Pagination, Table, Button, Modal, LoadingOverlay, DEFAULT_THEME, Group, Input } from "@mantine/core";
 import Link from "next/link";
-import { ProductAPI } from "../api";
+import { ProductAPI, SearchAPI } from "../api";
 import { DeleteModal } from "../components";
 import alertMessage from "../components/toast";
 import { sweetAlertInf } from "../interface";
@@ -40,12 +40,16 @@ const HomePage = () => {
     image: string;
     _id: string;
   }
+  // ********* HOOK ***********
   const [products, setProducts] = useState<ProductProps[] | []>([]);
   const [activePage, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [totalPage, setTotalPage] = useState(1);
   const [dialogDelete, setDialogDelete] = useState(false);
   const [selectProduct, setSelectProduct] = useState<string>();
+  const [searchField, setSearchField] = useState("");
+
+  // ********* HOOK ***********
   useEffect(() => {
     fetchAllProduct();
   }, []);
@@ -114,19 +118,35 @@ const HomePage = () => {
     }
     setDialogDelete(false);
   };
-
+  const submitSearch = async () => {
+    setLoading(true);
+    let response = await SearchAPI.search(searchField);
+    if (response) {
+      setLoading(false);
+      setProducts(response.data.searchResults);
+    }
+    // setLoading(true);
+  };
   return (
     <HomePageWrapper>
       <DeleteModal show={dialogDelete} deleteFunc={onDeleteCallback}></DeleteModal>
-
-      <Group position="apart" style={{ paddingBottom: "20px" }}>
+      <Group
+        position="apart"
+        style={{ paddingBottom: "20px" }}
+        onKeyUp={(e) => {
+          if (e.keyCode === 13) {
+            submitSearch();
+          }
+        }}
+      >
         <Input
-          // icon={<At />}
-
           size="sm"
           placeholder="Search Product"
+          onChange={(e: any) => {
+            setSearchField(e.target.value);
+          }}
           rightSection={
-            <ActionIcon variant="transparent">
+            <ActionIcon variant="transparent" onClick={submitSearch}>
               <FaSearch size={20}></FaSearch>
             </ActionIcon>
           }
