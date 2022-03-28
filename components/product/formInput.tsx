@@ -29,10 +29,13 @@ const FormProduct = (props: formProductProps) => {
     if (product) {
       let productLength = product.hashtag?.length;
       let hashtagString: string = "";
+      console.log("PRODUCT HASH", product.hashtag);
       for (let i = 0; i < productLength!; i++) {
-        hashtagString += "#" + product.hashtag![i];
+        hashtagString += product.hashtag![i] + " ";
       }
-      var hashTag: string = hashtagString.substring(1);
+      console.log("hashtagsRTING", hashtagString);
+      var hashTag: string = hashtagString.slice(0, -1);
+
       //REMOVE FIEST CHARACTER IS SPACE ~!!!!
       setFormData({
         ...product,
