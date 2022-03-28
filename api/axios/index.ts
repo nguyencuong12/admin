@@ -1,7 +1,7 @@
 import { default as axios, AxiosError } from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://api.sashimeomeo.com",
 });
 instance.interceptors.request.use(
   (config) => {
