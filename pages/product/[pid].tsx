@@ -4,8 +4,6 @@ import { useEffect } from "react";
 import { ProductAPI } from "../../api";
 import { ProductInf, sweetAlertInf } from "../../interface";
 import { FormInputProduct } from "../../components";
-
-import { img } from "./base64";
 import alertMessage from "../../components/toast";
 const ViewProduct = () => {
   const router = useRouter();
