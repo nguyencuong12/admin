@@ -4,7 +4,7 @@ import { FormInputProduct, AlertComponent } from "../../components";
 import { createProductInf, ProductInf, sweetAlertInf } from "../../interface";
 import { ProductAPI } from "../../api";
 import { useRouter } from "next/router";
-const createProduct = () => {
+const CreateProduct = () => {
   const router = useRouter();
 
   const onCreate = async (product: createProductInf) => {
@@ -43,4 +43,4 @@ const createProduct = () => {
   );
 };
 
-export default createProduct;
+export default CreateProduct;
