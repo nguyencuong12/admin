@@ -21,7 +21,7 @@ interface formProductProps {
   product?: ProductInf;
   callback: Function;
 }
-const formProduct = (props: formProductProps) => {
+const FormProduct = (props: formProductProps) => {
   const { title, btnTitle, callback, product } = props;
   const [formData, setFormData] = useState<ProductInf>();
 
@@ -82,4 +82,4 @@ const formProduct = (props: formProductProps) => {
   );
 };
 
-export default formProduct;
+export default FormProduct;
