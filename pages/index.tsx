@@ -60,7 +60,8 @@ const HomePage = () => {
         <h4> {element.title}</h4>
       </td>
       <td>
-        <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={`data:image/jpeg;base64,${element?.image}`}></img>
+        <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={element.image}></img>
+        {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={`data:image/jpeg;base64,${element?.image}`}></img> */}
       </td>
       <td>
         <span>{element.description}</span>

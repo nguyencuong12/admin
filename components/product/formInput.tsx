@@ -33,7 +33,6 @@ const FormProduct = (props: formProductProps) => {
       for (let i = 0; i < productLength!; i++) {
         hashtagString += product.hashtag![i] + " ";
       }
-      console.log("hashtagsRTING", hashtagString);
       var hashTag: string = hashtagString.slice(0, -1);
 
       //REMOVE FIEST CHARACTER IS SPACE ~!!!!

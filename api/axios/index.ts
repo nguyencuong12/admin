@@ -1,6 +1,8 @@
 import { default as axios, AxiosError } from "axios";
 
-let url = "https://api.sashimeomeo.com";
+// let url = "https://api.sashimeomeo.com";
+let url = "http://localhost:5000";
+
 const instance = axios.create({
   baseURL: url,
 });
