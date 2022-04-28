@@ -25,21 +25,34 @@ const ViewProduct = () => {
   }, [pid]);
   useEffect(() => {}, [product]);
 
-  const onUpdate = async (product: any) => {
+  const onUpdate = async (product: ProductInf) => {
     let formData = new FormData();
-    Object.keys(product || "").map((key) => {
+    console.log("PRODUCT UPDATE", product);
+
+    Object.keys(product).map((key) => {
+      let data = product[key as keyof ProductInf]?.toString();
       if (key === "image") {
-        if (typeof product.image === "string") {
-          formData.append("image", product.image);
-        } else {
-          formData.append("imageUpdate", product.image);
-        }
-        // formData.append("imageUpdate", product.image);
+        formData.append("image", product.image?.toString()!);
       } else {
-        let data = product[key as keyof ProductInf]?.toString();
         formData.append(key, data || "");
       }
     });
+    // formData.append(product.title!, product.title!);
+    // formData.append(key, data || "");
+
+    // Object.keys(product || "").map((key) => {
+    //   if (key === "image") {
+    //     if (typeof product.image === "string") {
+    //       formData.append("image", product.image);
+    //     } else {
+    //       formData.append("imageUpdate", product.image);
+    //     }
+    //     // formData.append("imageUpdate", product.image);
+    //   } else {
+    //     let data = product[key as keyof ProductInf]?.toString();
+    //     formData.append(key, data || "");
+    //   }
+    // });
     // formData.append("test", img);
 
     let response = await ProductAPI.updateProduct(formData);
@@ -54,7 +67,7 @@ const ViewProduct = () => {
         router.push("/");
       }
     }
-    console.log("response", response);
+    // console.log("response", response);
   };
 
   return (

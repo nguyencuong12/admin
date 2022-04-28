@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useForm } from "@mantine/form";
+
 import { Textarea, Paper, Chips, Chip, TextInput, Button } from "@mantine/core";
 import styled from "styled-components";
 import { DropboxComponent } from "../../components";
@@ -24,60 +26,67 @@ interface formProductProps {
 const FormProduct = (props: formProductProps) => {
   const { title, btnTitle, callback, product } = props;
   const [formData, setFormData] = useState<ProductInf>();
+  const [products, setProducts] = useState<ProductInf>();
+  const [testF, setTestF] = useState<File>();
+  const form = useForm({
+    initialValues: {
+      title: "",
+      description: "",
+      price: "",
+      type: "",
+      hashtag: "",
+      image: "",
+      _id: "",
+    },
+  });
 
   useEffect(() => {
     if (product) {
-      let productLength = product.hashtag?.length;
-      let hashtagString: string = "";
-      console.log("PRODUCT HASH", product.hashtag);
-      for (let i = 0; i < productLength!; i++) {
-        hashtagString += product.hashtag![i] + " ";
-      }
-      var hashTag: string = hashtagString.slice(0, -1);
-
-      //REMOVE FIEST CHARACTER IS SPACE ~!!!!
-      setFormData({
-        ...product,
-        hashtag: hashTag,
-        // hashtag: hashtagString,
-      });
+      setIntialValueForm(product);
     }
   }, [product]);
 
-  const getDropFile = (file: File) => {
-    setFormData({
-      ...formData,
-      ["image"]: file,
-    });
-  };
-  const onFormChange = (event: any, type: string) => {
-    let target = event.target.value;
-    setFormData({
-      ...formData,
-      [type]: target,
-    });
+  const setIntialValueForm = async (product: ProductInf) => {
+    // const checkUndifinedProduct = product.value(obj);
+    if (product._id && product.image && product.title && product.price && product.description && product.hashtag && product.type) {
+      form.setFieldValue("title", product.title);
+      form.setFieldValue("price", product.price);
+      form.setFieldValue("description", product.description);
+      let regexHashtag = product.hashtag.toString().trim().replace(/,/g, " ");
+      form.setFieldValue("hashtag", regexHashtag);
+      form.setFieldValue("type", product.type);
+      form.setFieldValue("_id", product._id);
+      form.setFieldValue("image", product.image);
+    }
   };
 
+  const getDropFile = (file: any) => {
+    form.setFieldValue("image", file);
+  };
+  const onSubmitForm = (values: ProductInf) => {
+    let convertStringToArrayFromSpace = values.hashtag!.toString().split(" ");
+    values.hashtag = convertStringToArrayFromSpace;
+    callback(values);
+  };
   return (
     <InputWrapper>
       <Paper shadow="lg" radius="md" p="md">
         <h2>{title}</h2>
         <Content>
-          <TextInput placeholder="Product Name" label="Product" value={formData?.title ? formData?.title : ""} required onChange={(e) => onFormChange(e, "title")} />
-          <Textarea placeholder="Product Description" value={formData?.description ? formData?.description : ""} label="Product Description" onChange={(e) => onFormChange(e, "description")} required />
-          <TextInput placeholder="Product Price" value={formData?.price ? formData?.price : ""} label="Product Price" required onChange={(e) => onFormChange(e, "price")} />
-          <TextInput placeholder="Product Type" value={formData?.type ? formData?.type : ""} label="Product Type" required onChange={(e) => onFormChange(e, "type")} />
-          <h5>Product Image:</h5>
-          <DropboxComponent callbackFunc={getDropFile}></DropboxComponent>
-          <Textarea placeholder="Hashtag" label="Hashtag" value={formData?.hashtag ? formData?.hashtag : ""} required onChange={(e) => onFormChange(e, "hashtag")} />
-          <Button
-            onClick={() => {
-              console.log("FORMDATA", formData?.hashtag);
-              callback(formData);
-            }}
+          <form
+            onSubmit={form.onSubmit((values) => {
+              onSubmitForm(values);
+            })}
           >
-            {btnTitle}
-          </Button>
+            <TextInput placeholder="Product Name" label="Product" required value={form.values.title} onChange={(event) => form.setFieldValue("title", event.target.value)} />
+            <Textarea placeholder="Product Description" label="Description" required value={form.values.description} onChange={(event) => form.setFieldValue("description", event.target.value)} />
+            <TextInput placeholder="Product Price" label="Price" required value={form.values.price} onChange={(event) => form.setFieldValue("price", event.target.value)} />
+            <TextInput placeholder="Product Type" label="Type" required value={form.values.type} onChange={(event) => form.setFieldValue("type", event.target.value)} />
+            <h5>Product Image:</h5>
+            <DropboxComponent callbackFunc={getDropFile}></DropboxComponent>
+            <Textarea label="Hashtag" placeholder="Hashtag" required value={form.values.hashtag} onChange={(event) => form.setFieldValue("hashtag", event.target.value)} />
+            <Button type="submit">{btnTitle}</Button>
+          </form>
         </Content>
       </Paper>
     </InputWrapper>

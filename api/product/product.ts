@@ -23,6 +23,12 @@ const Product = {
       // },
     });
   },
+  getTotalAmountProduct: async () => {
+    return await axios({
+      method: "POST",
+      url: url + "/total-amount",
+    });
+  },
   updateProduct: async (product: any) => {
     // const { _id } = product;
     console.log("PRODUCT", product);

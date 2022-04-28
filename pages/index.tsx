@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
-
 import { ActionIcon, Pagination, Table, Button, Modal, LoadingOverlay, DEFAULT_THEME, Group, Input } from "@mantine/core";
 import Link from "next/link";
 import { ProductAPI, SearchAPI } from "../api";
 import { DeleteModal } from "../components";
 import alertMessage from "../components/toast";
 import { sweetAlertInf } from "../interface";
-
+import { ProductInf } from "../interface";
 // import { DialogDelete } from "../components";
 const HomePageWrapper = styled.div``;
 
@@ -32,16 +31,16 @@ const PaginationWrapper = styled.div`
 const TableData = styled(Table)``;
 
 const HomePage = () => {
-  interface ProductProps {
-    title: string;
-    price: string;
-    hashtag: Array<string>;
-    description: string;
-    image: string;
-    _id: string;
-  }
+  // interface ProductProps {
+  //   title: string;
+  //   price: string;
+  //   hashtag: Array<string>;
+  //   description: string;
+  //   image: string;
+  //   _id: string;
+  // }
   // ********* HOOK ***********
-  const [products, setProducts] = useState<ProductProps[] | []>([]);
+  const [products, setProducts] = useState<ProductInf[] | []>([]);
   const [activePage, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [totalPage, setTotalPage] = useState(1);
@@ -91,16 +90,30 @@ const HomePage = () => {
       </td>
     </tr>
   ));
-
-  const fetchAllProduct = async () => {
+  const excuteAction = () => {
     setLoading(true);
+  };
+  const getProductInResponse = async () => {
     let response = await ProductAPI.getAllProduct(activePage);
-    console.log("RESPONSE", response);
-    if (response.status === 200) {
+    return response.data.products.product;
+  };
+  const saveProductInState = async (products: [ProductInf]) => {
+    setProducts(products);
+    setLoading(false);
+  };
+  async function getPageTotal() {
+    let response = await ProductAPI.getTotalAmountProduct();
+    return response.data.total;
+  }
+  const fetchAllProduct = async () => {
+    excuteAction();
+    let products = await getProductInResponse();
+    let totalAmountProducts = await getPageTotal();
+    await Promise.all([products, totalAmountProducts]).then(() => {
+      saveProductInState(products);
+      setTotalPage(totalAmountProducts);
       setLoading(false);
-      setProducts(response.data.products.product);
-      setTotalPage(response.data.products.count);
-    }
+    });
   };
   const onDeleteCallback = async (deleteStatus: boolean) => {
     if (deleteStatus) {
@@ -120,13 +133,9 @@ const HomePage = () => {
     setDialogDelete(false);
   };
   const submitSearch = async () => {
-    setLoading(true);
+    excuteAction();
     let response = await SearchAPI.search(searchField);
-    if (response) {
-      setLoading(false);
-      setProducts(response.data.searchResults);
-    }
-    // setLoading(true);
+    saveProductInState(response.data.searchResults);
   };
   return (
     <HomePageWrapper>
@@ -183,13 +192,12 @@ const HomePage = () => {
           page={activePage}
           onChange={async (page: number) => {
             setPage(page);
-            setLoading(true);
+            excuteAction();
             let response = await ProductAPI.getAllProduct(page);
-            if (response.status === 200) {
-              setLoading(false);
-              setProducts(response.data.products.product);
-              setTotalPage(response.data.products.count);
-            }
+            setLoading(false);
+            setProducts(response.data.products.product);
+            setTotalPage(response.data.products.count);
+            // setProductAndSaveInState();
           }}
         />
       </PaginationWrapper>

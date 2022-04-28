@@ -12,8 +12,9 @@ const CreateProduct = () => {
       console.log("MISSING INPUT FIELD !!!");
     } else {
       let formData = new FormData();
-      console.log("PRODUCT", product.hashtag);
+
       Object.keys(product || "").map((key) => {
+        console.log("KEY", key);
         if (key === "image") {
           formData.append("image", product.image || "");
         } else {
