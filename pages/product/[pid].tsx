@@ -18,44 +18,15 @@ const ViewProduct = () => {
   useEffect(() => {
     if (pid) {
       fetchProduct().then((response) => {
-        console.log("response", response.data);
         setProduct(response.data.product);
       });
     }
   }, [pid]);
   useEffect(() => {}, [product]);
 
-  const onUpdate = async (product: ProductInf) => {
-    let formData = new FormData();
-    console.log("PRODUCT UPDATE", product);
+  const fetchResUpdate = async (data: FormData) => {
+    let response = await ProductAPI.updateProduct(data);
 
-    Object.keys(product).map((key) => {
-      let data = product[key as keyof ProductInf]?.toString();
-      if (key === "image") {
-        formData.append("image", product.image?.toString()!);
-      } else {
-        formData.append(key, data || "");
-      }
-    });
-    // formData.append(product.title!, product.title!);
-    // formData.append(key, data || "");
-
-    // Object.keys(product || "").map((key) => {
-    //   if (key === "image") {
-    //     if (typeof product.image === "string") {
-    //       formData.append("image", product.image);
-    //     } else {
-    //       formData.append("imageUpdate", product.image);
-    //     }
-    //     // formData.append("imageUpdate", product.image);
-    //   } else {
-    //     let data = product[key as keyof ProductInf]?.toString();
-    //     formData.append(key, data || "");
-    //   }
-    // });
-    // formData.append("test", img);
-
-    let response = await ProductAPI.updateProduct(formData);
     if (response) {
       let objectAlert: sweetAlertInf = {
         title: "Update Status",
@@ -67,7 +38,19 @@ const ViewProduct = () => {
         router.push("/");
       }
     }
-    // console.log("response", response);
+  };
+
+  const onUpdate = async (product: ProductInf) => {
+    let formData = new FormData();
+    Object.keys(product).map((key) => {
+      let data = product[key as keyof ProductInf]?.toString();
+      if (key === "imageUpload") {
+        formData.append("imageUpload", product.imageUpload!);
+      } else {
+        formData.append(key, data || "");
+      }
+    });
+    await fetchResUpdate(formData);
   };
 
   return (

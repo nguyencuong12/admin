@@ -3,8 +3,9 @@ export default interface ProductInterface {
   title?: string;
   description?: string;
   type?: string;
-  image?: string;
+  image?: string | File;
   price?: string;
   hashtag?: string | Array<string>;
   id?: string;
+  imageUpload?: File;
 }

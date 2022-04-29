@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { DropboxComponent } from "../../components";
 import { ProductAPI } from "../../api";
 import { createProductInf, ProductInf } from "../../interface";
+import { imageOptimizer } from "next/dist/server/image-optimizer";
 // import { keys } from "ts-transformer-keys";
 
 const InputWrapper = styled.div`
@@ -25,9 +26,10 @@ interface formProductProps {
 }
 const FormProduct = (props: formProductProps) => {
   const { title, btnTitle, callback, product } = props;
-  const [formData, setFormData] = useState<ProductInf>();
-  const [products, setProducts] = useState<ProductInf>();
-  const [testF, setTestF] = useState<File>();
+  // const [formData, setFormData] = useState<ProductInf>();
+  // const [products, setProducts] = useState<ProductInf>();
+  const [file, setFile] = useState<File>();
+
   const form = useForm({
     initialValues: {
       title: "",
@@ -39,7 +41,6 @@ const FormProduct = (props: formProductProps) => {
       _id: "",
     },
   });
-
   useEffect(() => {
     if (product) {
       setIntialValueForm(product);
@@ -56,28 +57,28 @@ const FormProduct = (props: formProductProps) => {
       form.setFieldValue("hashtag", regexHashtag);
       form.setFieldValue("type", product.type);
       form.setFieldValue("_id", product._id);
-      form.setFieldValue("image", product.image);
+      form.setFieldValue("image", product.image.toString());
     }
   };
 
-  const getDropFile = (file: any) => {
-    form.setFieldValue("image", file);
+  const getDropFile = (file: File) => {
+    setFile(file);
   };
   const onSubmitForm = (values: ProductInf) => {
     let convertStringToArrayFromSpace = values.hashtag!.toString().split(" ");
     values.hashtag = convertStringToArrayFromSpace;
-    callback(values);
+    let options = {
+      ...values,
+      imageUpload: file,
+    };
+    callback(options);
   };
   return (
     <InputWrapper>
       <Paper shadow="lg" radius="md" p="md">
         <h2>{title}</h2>
         <Content>
-          <form
-            onSubmit={form.onSubmit((values) => {
-              onSubmitForm(values);
-            })}
-          >
+          <form onSubmit={form.onSubmit((values) => onSubmitForm(values))}>
             <TextInput placeholder="Product Name" label="Product" required value={form.values.title} onChange={(event) => form.setFieldValue("title", event.target.value)} />
             <Textarea placeholder="Product Description" label="Description" required value={form.values.description} onChange={(event) => form.setFieldValue("description", event.target.value)} />
             <TextInput placeholder="Product Price" label="Price" required value={form.values.price} onChange={(event) => form.setFieldValue("price", event.target.value)} />
