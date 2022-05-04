@@ -6,10 +6,10 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ["https://api.sashimeomeo.com:5000"],
+    domains: ['https://api.sashimeomeo.com'],
   },
   env: {
-    HOST_API: "https://api.sashimeomeo.com:5000",
+    HOST_API: 'https://api.sashimeomeo.com',
   },
 };
 
