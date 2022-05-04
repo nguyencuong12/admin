@@ -1,7 +1,7 @@
 import { default as axios, AxiosError } from "axios";
 
 // let url = "https://api.sashimeomeo.com";
-let url = "http://localhost:5000";
+let url = process.env.HOST_API;
 
 const instance = axios.create({
   baseURL: url,
