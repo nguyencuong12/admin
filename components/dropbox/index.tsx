@@ -45,7 +45,7 @@ function Dropbox(props: DropboxProps) {
         // console.log("accepted files", files[0])
       }
       onReject={(files) => console.log("rejected files", files)}
-      maxSize={3 * 1024 ** 2}
+      // maxSize={3 * 1024 ** 2}
       accept={IMAGE_MIME_TYPE}
     >
       {(status) => dropzoneChildren(status, theme)}
