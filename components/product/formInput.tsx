@@ -85,6 +85,7 @@ const FormProduct = (props: formProductProps) => {
             <TextInput placeholder="Product Type" label="Type" required value={form.values.type} onChange={(event) => form.setFieldValue("type", event.target.value)} />
             <h5>Product Image:</h5>
             <DropboxComponent callbackFunc={getDropFile}></DropboxComponent>
+            <strong>FileName: {file?.name}</strong>
             <Textarea label="Hashtag" placeholder="Hashtag" required value={form.values.hashtag} onChange={(event) => form.setFieldValue("hashtag", event.target.value)} />
             <Button type="submit">{btnTitle}</Button>
           </form>
