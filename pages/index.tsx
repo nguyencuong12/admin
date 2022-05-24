@@ -22,7 +22,7 @@ const AddButton = styled.div`
 const GroupButton = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 0px 10px;
 `;
 const PaginationWrapper = styled.div`
@@ -76,20 +76,20 @@ const HomePage = () => {
 
   const rows = products.map((element) => (
     <Tr key={element._id}>
-      <Td>
-        <h4 style={{ maxWidth: "100px" }}> {element.title}</h4>
+      <Td style={{ textAlign: "center" }}>
+        <h4> {element.title}</h4>
       </Td>
-      <Td>
+      <Td style={{ textAlign: "center" }}>
         {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={element.image?.toString()}></img> */}
 
         <Image src={element.image!.toString()} height={60} width={60} objectFit="contain"></Image>
         {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={`data:image/jpeg;base64,${element?.image}`}></img> */}
       </Td>
 
-      <Td>
+      <Td style={{ textAlign: "center" }}>
         <span>{element.price}</span>
       </Td>
-      <Td>
+      <Td style={{ textAlign: "center" }}>
         <GroupButton>
           <Link href={`/product/${element._id}`}>
             <Button size={"xs"} color={"info"}>
@@ -192,7 +192,7 @@ const HomePage = () => {
       </Group>
       <TableWrapper>
         <LoadingOverlay visible={loading} />
-        <TableData horizontalSpacing="xl" verticalSpacing="xs">
+        <Table>
           <Thead>
             <Tr>
               <Th>Sản Phẩm</Th>
@@ -201,8 +201,8 @@ const HomePage = () => {
               <Th>Thao Tác</Th>
             </Tr>
           </Thead>
-          <tbody>{rows}</tbody>
-        </TableData>
+          <Tbody>{rows}</Tbody>
+        </Table>
       </TableWrapper>
       <PaginationWrapper>
         <Pagination
