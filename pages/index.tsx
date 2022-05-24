@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
-import { ActionIcon, Pagination, Table, Button, Modal, LoadingOverlay, DEFAULT_THEME, Group, Input } from "@mantine/core";
+import { ActionIcon, Pagination, Button, Modal, LoadingOverlay, DEFAULT_THEME, Group, Input } from "@mantine/core";
 import Link from "next/link";
 import { ProductAPI, SearchAPI } from "../api";
 import { DeleteModal } from "../components";
@@ -11,6 +11,8 @@ import { ProductInf } from "../interface";
 // import { DialogDelete } from "../components";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 const HomePageWrapper = styled.div``;
 
 const AddButton = styled.div`
@@ -73,21 +75,21 @@ const HomePage = () => {
   }, []);
 
   const rows = products.map((element) => (
-    <tr key={element._id}>
-      <td>
+    <Tr key={element._id}>
+      <Td>
         <h4 style={{ maxWidth: "100px" }}> {element.title}</h4>
-      </td>
-      <td>
+      </Td>
+      <Td>
         {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={element.image?.toString()}></img> */}
 
         <Image src={element.image!.toString()} height={60} width={60} objectFit="contain"></Image>
         {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={`data:image/jpeg;base64,${element?.image}`}></img> */}
-      </td>
+      </Td>
 
-      <td>
+      <Td>
         <span>{element.price}</span>
-      </td>
-      <td>
+      </Td>
+      <Td>
         <GroupButton>
           <Link href={`/product/${element._id}`}>
             <Button size={"xs"} color={"info"}>
@@ -106,8 +108,8 @@ const HomePage = () => {
             Xóa
           </Button>
         </GroupButton>
-      </td>
-    </tr>
+      </Td>
+    </Tr>
   ));
   const excuteAction = () => {
     setLoading(true);
@@ -191,14 +193,14 @@ const HomePage = () => {
       <TableWrapper>
         <LoadingOverlay visible={loading} />
         <TableData horizontalSpacing="xl" verticalSpacing="xs">
-          <thead>
-            <tr>
-              <th>Sản Phẩm</th>
-              <th>Hình Ảnh</th>
-              <th>Giá Tiền</th>
-              <th>Thao Tác</th>
-            </tr>
-          </thead>
+          <Thead>
+            <Tr>
+              <Th>Sản Phẩm</Th>
+              <Th>Hình Ảnh</Th>
+              <Th>Giá Tiền</Th>
+              <Th>Thao Tác</Th>
+            </Tr>
+          </Thead>
           <tbody>{rows}</tbody>
         </TableData>
       </TableWrapper>
