@@ -5,12 +5,13 @@ import { ProductAPI } from "../../api";
 import { ProductInf, sweetAlertInf } from "../../interface";
 import { FormInputProduct } from "../../components";
 import alertMessage from "../../components/toast";
+import SweetAlert2 from "../../utils/sweetAlert";
 const ViewProduct = () => {
   const router = useRouter();
   const { pid } = router.query;
   const [product, setProduct] = useState<ProductInf>();
-  const [update, setUpdate] = useState(false);
-  const [aa, setAA] = useState();
+  // const [update, setUpdate] = useState(false);
+  // const [aa, setAA] = useState();
 
   const fetchProduct = async () => {
     return await ProductAPI.getProduct(pid);
@@ -26,17 +27,8 @@ const ViewProduct = () => {
 
   const fetchResUpdate = async (data: FormData) => {
     let response = await ProductAPI.updateProduct(data);
-
     if (response) {
-      let objectAlert: sweetAlertInf = {
-        title: "Update Status",
-        content: "Update Product Success !!",
-        icon: "success",
-      };
-      let status = await alertMessage(objectAlert);
-      if (status) {
-        router.push("/");
-      }
+      SweetAlert2.updateSuccess();
     }
   };
 

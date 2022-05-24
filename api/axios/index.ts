@@ -1,4 +1,5 @@
 import { default as axios, AxiosError } from "axios";
+import SweetAlert2 from "../../utils/sweetAlert";
 
 // let url = "https://api.sashimeomeo.com";
 let url = process.env.HOST_API;
@@ -19,7 +20,19 @@ instance.interceptors.response.use(
     return response;
   },
   (err: AxiosError) => {
-    window.alert(err.response?.data.error);
+    switch (err.response?.status) {
+      case 401: {
+        // console.log("401 CALL !!");
+        SweetAlert2.accessDenide();
+
+        break;
+      }
+      default: {
+        window.alert(err.response?.data.error);
+        break;
+      }
+    }
+
     // console.error(err.response.data.message);
     // window.alert(err.data);
     // console.log("ERR RESPONSE", err.message);

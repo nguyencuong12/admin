@@ -38,9 +38,7 @@ const LoginPage = () => {
     });
   };
   const onSubmit = async () => {
-    console.log("FORMDATA", formData);
     const response = await Auth_API.login(formData);
-
     if (response) {
       localStorage.setItem("access_token", response.data.access_token);
       SweetAlert2.loginSuccess();
@@ -62,8 +60,8 @@ const LoginPage = () => {
           meomeo{" "}
         </h2>
         <TextInput
-          placeholder="Your name"
-          label="Full name"
+          placeholder="Nhập Tên Đăng Nhập"
+          label="Tên Đăng Nhập"
           required
           onChange={(e) => {
             onChangeForm(e, "username");
@@ -71,9 +69,8 @@ const LoginPage = () => {
         />
         <br />
         <PasswordInput
-          placeholder="Password"
-          label="Password"
-          description="Password"
+          placeholder="Nhập Mật Khẩu"
+          label="Mật Khẩu"
           required
           onChange={(e) => {
             onChangeForm(e, "password");
@@ -90,7 +87,7 @@ const LoginPage = () => {
             onSubmit();
           }}
         >
-          Login
+          Đăng Nhập
         </Button>
 
         <br />

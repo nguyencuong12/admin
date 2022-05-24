@@ -1,9 +1,10 @@
 import React from "react";
 
-import { FormInputProduct, AlertComponent } from "../../components";
-import { createProductInf, ProductInf, sweetAlertInf } from "../../interface";
+import { FormInputProduct } from "../../components";
+import { createProductInf, ProductInf } from "../../interface";
 import { ProductAPI } from "../../api";
 import { useRouter } from "next/router";
+import SweetAlert2 from "../../utils/sweetAlert";
 const CreateProduct = () => {
   const router = useRouter();
   const onCreate = async (product: ProductInf) => {
@@ -19,15 +20,7 @@ const CreateProduct = () => {
 
     let response = await ProductAPI.createProduct(formData);
     if (response) {
-      let objectAlert: sweetAlertInf = {
-        title: "Create Status",
-        content: "Create Product Success !!",
-        icon: "success",
-      };
-      let status = await AlertComponent(objectAlert);
-      if (status) {
-        router.push("/");
-      }
+      SweetAlert2.createSuccess();
     }
   };
   return (

@@ -14,7 +14,7 @@ import Image from "next/image";
 const HomePageWrapper = styled.div``;
 
 const AddButton = styled.div`
-  width: 20%;
+  width: 25%;
 `;
 
 const GroupButton = styled.div`
@@ -31,6 +31,17 @@ const PaginationWrapper = styled.div`
 `;
 
 const TableData = styled(Table)``;
+
+// width: "100%", position: "relative", marginTop: "40px"
+const TableWrapper = styled.div`
+  width: 70%;
+  margin: 0 auto;
+  position: relative;
+  margin-top: 40px;
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+  }
+`;
 
 const HomePage = () => {
   // interface ProductProps {
@@ -64,7 +75,7 @@ const HomePage = () => {
   const rows = products.map((element) => (
     <tr key={element._id}>
       <td>
-        <h4 style={{ maxWidth: "100px", textAlign: "center" }}> {element.title}</h4>
+        <h4 style={{ maxWidth: "100px" }}> {element.title}</h4>
       </td>
       <td>
         {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={element.image?.toString()}></img> */}
@@ -79,8 +90,8 @@ const HomePage = () => {
       <td>
         <GroupButton>
           <Link href={`/product/${element._id}`}>
-            <Button size={"xs"} color={"indigo"}>
-              Edit
+            <Button size={"xs"} color={"info"}>
+              Chỉnh Sửa
             </Button>
           </Link>
 
@@ -92,7 +103,7 @@ const HomePage = () => {
               setDialogDelete(true);
             }}
           >
-            Delete
+            Xóa
           </Button>
         </GroupButton>
       </td>
@@ -171,27 +182,26 @@ const HomePage = () => {
         />
         <AddButton>
           <Link href="/product/create">
-            <Button size={"xs"} color={"teal"} fullWidth={true} component={"a"} href="/product/create">
+            <Button size={"sm"} color={"teal"} fullWidth={true} component={"a"} href="/product/create">
               Add
             </Button>
           </Link>
         </AddButton>
       </Group>
-      <div style={{ width: "100%", position: "relative", marginTop: "40px" }}>
+      <TableWrapper>
         <LoadingOverlay visible={loading} />
-        <TableData verticalSpacing="xs" striped highlightOnHover>
+        <TableData horizontalSpacing="xl" verticalSpacing="xs">
           <thead>
             <tr>
-              <th>Product Name</th>
-              <th>Product Image</th>
-
-              <th>Price</th>
-              <th>Actions</th>
+              <th>Sản Phẩm</th>
+              <th>Hình Ảnh</th>
+              <th>Giá Tiền</th>
+              <th>Thao Tác</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
         </TableData>
-      </div>
+      </TableWrapper>
       <PaginationWrapper>
         <Pagination
           // Math.ceil(total_items/limit);

@@ -29,6 +29,36 @@ const SweetAlert2 = {
       }
     });
   },
+  accessDenide() {
+    Swal.fire({
+      icon: "error",
+      title: "Truy Cập Thất Bại !",
+      //   text: "Something went wrong!",
+      //   footer: '<a href="">Why do I have this issue?</a>',
+    });
+  },
+  updateSuccess: () => {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Chỉnh Sửa Thành Công !",
+      showConfirmButton: false,
+      timer: 1000,
+    }).then((result) => {
+      window.location.href = "/";
+    });
+  },
+  createSuccess: () => {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Tạo Sản Phẩm Thành Công !",
+      showConfirmButton: false,
+      timer: 1000,
+    }).then((result) => {
+      window.location.href = "/";
+    });
+  },
 };
 
 export default SweetAlert2;

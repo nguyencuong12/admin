@@ -55,7 +55,7 @@ const NavbarComponent = () => {
   return (
     <NavbarWrapper>
       <NavbarContent>
-        <NavbarBurger opened={sidebarState} onClick={() => clickBurger()} />
+        {/* <NavbarBurger opened={sidebarState} onClick={() => clickBurger()} /> */}
         {/* BURGER */}
         <Link href="/">
           <NavbarLogo>Sashimeomeo Manager</NavbarLogo>
