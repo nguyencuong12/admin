@@ -10,7 +10,7 @@ const BodyWrapper = styled.div`
   overflow: hidden;
   height: 93.8vh;
   overflow-y: auto;
-  margin-left: ${(props) => props.theme.sidebarWidth};
+  /* margin-left: ${(props) => props.theme.sidebarWidth}; */
   @media only screen and (max-width: ${(props) => props.theme.breakSM}) {
     margin-left: 0px;
   }

@@ -23,7 +23,7 @@
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
     "styled-components": "^5.3.3",
-    "sweetalert2": "^11.4.5",
+    "sweetalert2": "^11.4.16",
     "sweetalert2-react-content": "^4.2.0",
     "tabler-icons-react": "^1.37.0",
     "ts-transformer-keys": "^0.4.3"

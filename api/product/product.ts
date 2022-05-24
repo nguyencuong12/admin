@@ -7,6 +7,7 @@ const Product = {
     return await axios({
       method: "GET",
       url: url,
+
       params: {
         currentPage: page,
       },
@@ -32,11 +33,17 @@ const Product = {
   updateProduct: async (product: any) => {
     // const { _id } = product;
     console.log("PRODUCT", product);
+    var a = localStorage.getItem("access_token");
+    console.log("a", a);
     return await axios({
       method: "POST",
       url: url + "/update",
       data: product,
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        // Authorization: `${localStorage.getItem("access_token")}`,
+      },
     });
   },
 
@@ -45,13 +52,16 @@ const Product = {
       method: "POST",
       url: url,
       data: data,
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${localStorage.getItem("access_token")}` },
     });
   },
   deleteProduct: async (id: any) => {
     return await axios({
       method: "DELETE",
       url: url,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
       params: {
         id: id,
       },

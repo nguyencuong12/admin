@@ -9,6 +9,8 @@ import alertMessage from "../components/toast";
 import { sweetAlertInf } from "../interface";
 import { ProductInf } from "../interface";
 // import { DialogDelete } from "../components";
+import { useRouter } from "next/router";
+import Image from "next/image";
 const HomePageWrapper = styled.div``;
 
 const AddButton = styled.div`
@@ -40,6 +42,8 @@ const HomePage = () => {
   //   _id: string;
   // }
   // ********* HOOK ***********
+  const router = useRouter();
+
   const [products, setProducts] = useState<ProductInf[] | []>([]);
   const [activePage, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -50,21 +54,25 @@ const HomePage = () => {
 
   // ********* HOOK ***********
   useEffect(() => {
-    fetchAllProduct();
+    if (!localStorage.getItem("access_token")) {
+      router.push("/login");
+    } else {
+      fetchAllProduct();
+    }
   }, []);
 
   const rows = products.map((element) => (
     <tr key={element._id}>
       <td>
-        <h4> {element.title}</h4>
+        <h4 style={{ maxWidth: "100px", textAlign: "center" }}> {element.title}</h4>
       </td>
       <td>
-        <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={element.image?.toString()}></img>
+        {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={element.image?.toString()}></img> */}
+
+        <Image src={element.image!.toString()} height={60} width={60} objectFit="contain"></Image>
         {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={`data:image/jpeg;base64,${element?.image}`}></img> */}
       </td>
-      <td>
-        <span>{element.description}</span>
-      </td>
+
       <td>
         <span>{element.price}</span>
       </td>
@@ -163,7 +171,7 @@ const HomePage = () => {
         />
         <AddButton>
           <Link href="/product/create">
-            <Button size={"sm"} color={"teal"} fullWidth={true} component={"a"} href="/product/create">
+            <Button size={"xs"} color={"teal"} fullWidth={true} component={"a"} href="/product/create">
               Add
             </Button>
           </Link>
@@ -176,7 +184,7 @@ const HomePage = () => {
             <tr>
               <th>Product Name</th>
               <th>Product Image</th>
-              <th>Description</th>
+
               <th>Price</th>
               <th>Actions</th>
             </tr>

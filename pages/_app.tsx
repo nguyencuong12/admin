@@ -10,7 +10,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <ThemeProvider theme={variable}>
-        <SidebarComponent></SidebarComponent>
         <NavbarComponent></NavbarComponent>
         <BodyComponent>
           <Component {...pageProps} />

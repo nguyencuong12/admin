@@ -3,6 +3,8 @@ import { Button, PasswordInput } from "@mantine/core";
 import { TextInput } from "@mantine/core";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import Auth_API from "../../api/auth";
+import SweetAlert2 from "../../utils/sweetAlert";
 // import { Auth_API } from "../../api";
 // import SweetAlert2 from "../../utils/sweetAlert";
 const LoginWrapper = styled.div`
@@ -36,9 +38,12 @@ const LoginPage = () => {
     });
   };
   const onSubmit = async () => {
+    console.log("FORMDATA", formData);
     const response = await Auth_API.login(formData);
+
     if (response) {
       localStorage.setItem("access_token", response.data.access_token);
+      SweetAlert2.loginSuccess();
       //   SweetAlert2.loginSuccess();
       //   router.push("/");
     }

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { ActionIcon, Burger } from "@mantine/core";
-import { AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineSearch, AiOutlineLogout } from "react-icons/ai";
 import { useAppSelector, useAppDispatch } from "../../store/hook";
 import { changeSidebar } from "../../store/slices/sidebar";
 import Link from "next/link";
+import SweetAlert2 from "../../utils/sweetAlert";
 
 const NavbarWrapper = styled.div`
-  margin-left: ${(props) => props.theme.sidebarWidth};
+  /* margin-left: ${(props) => props.theme.sidebarWidth}; */
   padding: 0px 10px;
   height: 60px;
   overflow: hidden;
@@ -57,11 +58,17 @@ const NavbarComponent = () => {
         <NavbarBurger opened={sidebarState} onClick={() => clickBurger()} />
         {/* BURGER */}
         <Link href="/">
-          <NavbarLogo>Logo</NavbarLogo>
+          <NavbarLogo>Sashimeomeo Manager</NavbarLogo>
         </Link>
         <NavbarControl>
-          <ActionIcon variant="transparent" size="md">
-            <AiOutlineSearch size={40}></AiOutlineSearch>
+          <ActionIcon
+            variant="transparent"
+            size="md"
+            onClick={() => {
+              SweetAlert2.logout();
+            }}
+          >
+            <AiOutlineLogout size={40}></AiOutlineLogout>
           </ActionIcon>
         </NavbarControl>
       </NavbarContent>

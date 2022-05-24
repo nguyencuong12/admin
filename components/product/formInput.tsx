@@ -80,14 +80,25 @@ const FormProduct = (props: formProductProps) => {
         <Content>
           <form onSubmit={form.onSubmit((values) => onSubmitForm(values))}>
             <TextInput placeholder="Product Name" label="Product" required value={form.values.title} onChange={(event) => form.setFieldValue("title", event.target.value)} />
+            <br />
             <Textarea placeholder="Product Description" label="Description" required value={form.values.description} onChange={(event) => form.setFieldValue("description", event.target.value)} />
+            <br />
             <TextInput placeholder="Product Price" label="Price" required value={form.values.price} onChange={(event) => form.setFieldValue("price", event.target.value)} />
+            <br />
             <TextInput placeholder="Product Type" label="Type" required value={form.values.type} onChange={(event) => form.setFieldValue("type", event.target.value)} />
+            <br />
             <h5>Product Image:</h5>
             <DropboxComponent callbackFunc={getDropFile}></DropboxComponent>
+            <br />
             <strong>FileName: {file?.name}</strong>
+            <br />
+            <br />
+
             <Textarea label="Hashtag" placeholder="Hashtag" required value={form.values.hashtag} onChange={(event) => form.setFieldValue("hashtag", event.target.value)} />
-            <Button type="submit">{btnTitle}</Button>
+            <br />
+            <Button type="submit" fullWidth>
+              {btnTitle}
+            </Button>
           </form>
         </Content>
       </Paper>
