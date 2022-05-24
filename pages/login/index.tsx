@@ -17,7 +17,7 @@ const LoginWrapper = styled.div`
   padding: 80px;
 `;
 const LoginContent = styled.form`
-  min-width: 400px;
+  min-width: 320px;
   max-width: 400px;
   border: 2px solid #cccc;
   padding: 10px;
