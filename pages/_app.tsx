@@ -6,6 +6,7 @@ import variable from "../styles/variable";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
 import Head from "next/head";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

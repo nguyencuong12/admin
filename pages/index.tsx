@@ -12,7 +12,8 @@ import { ProductInf } from "../interface";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
-import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+import TableComponent from "../components/table";
+
 const HomePageWrapper = styled.div``;
 
 const AddButton = styled.div`
@@ -190,7 +191,7 @@ const HomePage = () => {
           </Link>
         </AddButton>
       </Group>
-      <TableWrapper>
+      {/* <TableWrapper>
         <LoadingOverlay visible={loading} />
         <Table>
           <Thead>
@@ -203,7 +204,8 @@ const HomePage = () => {
           </Thead>
           <Tbody>{rows}</Tbody>
         </Table>
-      </TableWrapper>
+      </TableWrapper> */}
+      <TableComponent products={products}></TableComponent>
       <PaginationWrapper>
         <Pagination
           // Math.ceil(total_items/limit);
