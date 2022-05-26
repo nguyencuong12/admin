@@ -84,7 +84,7 @@ const TableComponent = (props: propsType) => {
           </td>
           <td data-label="Giá Tiền">{instance.price}</td>
           <td data-label="Thao Tác">
-            <Group position="center" spacing="sm">
+            <Group position="right" direction="row" noWrap>
               <Link href={`product/${instance._id}`}>
                 <Button size={"xs"} variant="outline" leftIcon={<FaPen></FaPen>}>
                   Chỉnh Sửa
