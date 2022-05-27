@@ -6,11 +6,13 @@ import { createSlice, configureStore } from "@reduxjs/toolkit";
 // };
 import { default as sidebarReducer } from "../store/slices/sidebar";
 import { default as productReducer } from "../store/slices/product";
+import { default as menuReducer } from "../store/slices/menu";
 
 export const store = configureStore({
   reducer: {
     sidebar: sidebarReducer,
     product: productReducer,
+    menu: menuReducer,
   },
 });
 

@@ -191,20 +191,7 @@ const HomePage = () => {
           </Link>
         </AddButton>
       </Group>
-      {/* <TableWrapper>
-        <LoadingOverlay visible={loading} />
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>Sản Phẩm</Th>
-              <Th>Hình Ảnh</Th>
-              <Th>Giá Tiền</Th>
-              <Th>Thao Tác</Th>
-            </Tr>
-          </Thead>
-          <Tbody>{rows}</Tbody>
-        </Table>
-      </TableWrapper> */}
+
       <TableComponent products={products}></TableComponent>
       <PaginationWrapper>
         <Pagination
