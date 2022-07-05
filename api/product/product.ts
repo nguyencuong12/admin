@@ -1,7 +1,7 @@
 import { default as axios } from "../axios";
 import { ProductInf } from "../../interface/";
 
-let url = "/product";
+let url = "/products";
 const Product = {
   getAllProduct: async (page: number) => {
     return await axios({
@@ -52,7 +52,11 @@ const Product = {
       method: "POST",
       url: url,
       data: data,
-      headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${localStorage.getItem("access_token")}` },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        // Authorization: `${localStorage.getItem("access_token")}`,
+      },
     });
   },
   deleteProduct: async (id: any) => {

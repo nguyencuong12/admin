@@ -75,49 +75,50 @@ const HomePage = () => {
     }
   }, []);
 
-  const rows = products.map((element) => (
-    <Tr key={element._id}>
-      <Td style={{ textAlign: "center" }}>
-        <h4> {element.title}</h4>
-      </Td>
-      <Td style={{ textAlign: "center" }}>
-        {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={element.image?.toString()}></img> */}
+  // const rows = products.map((element) => (
+  //   <Tr key={element._id}>
+  //     <Td style={{ textAlign: "center" }}>
+  //       <h4> {element.title}</h4>
+  //     </Td>
+  //     <Td style={{ textAlign: "center" }}>
+  //       {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={element.image?.toString()}></img> */}
 
-        <Image src={element.image!.toString()} height={60} width={60} objectFit="contain"></Image>
-        {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={`data:image/jpeg;base64,${element?.image}`}></img> */}
-      </Td>
+  //       <Image src={element.image!.toString()} height={60} width={60} objectFit="contain"></Image>
+  //       {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={`data:image/jpeg;base64,${element?.image}`}></img> */}
+  //     </Td>
 
-      <Td style={{ textAlign: "center" }}>
-        <span>{element.price}</span>
-      </Td>
-      <Td style={{ textAlign: "center" }}>
-        <GroupButton>
-          <Link href={`/product/${element._id}`}>
-            <Button size={"xs"} color={"info"}>
-              Chỉnh Sửa
-            </Button>
-          </Link>
+  //     <Td style={{ textAlign: "center" }}>
+  //       <span>{element.price}</span>
+  //     </Td>
+  //     <Td style={{ textAlign: "center" }}>
+  //       <GroupButton>
+  //         <Link href={`/product/${element._id}`}>
+  //           <Button size={"xs"} color={"info"}>
+  //             Chỉnh Sửa
+  //           </Button>
+  //         </Link>
 
-          <Button
-            size={"xs"}
-            color={"red"}
-            onClick={() => {
-              setSelectProduct(element._id);
-              setDialogDelete(true);
-            }}
-          >
-            Xóa
-          </Button>
-        </GroupButton>
-      </Td>
-    </Tr>
-  ));
+  //         <Button
+  //           size={"xs"}
+  //           color={"red"}
+  //           onClick={() => {
+  //             setSelectProduct(element._id);
+  //             setDialogDelete(true);
+  //           }}
+  //         >
+  //           Xóa
+  //         </Button>
+  //       </GroupButton>
+  //     </Td>
+  //   </Tr>
+  // ));
   const excuteAction = () => {
     setLoading(true);
   };
   const getProductInResponse = async () => {
     let response = await ProductAPI.getAllProduct(activePage);
-    return response.data.products.product;
+    console.log("response ", response);
+    return response.data.products._productList;
   };
   const saveProductInState = async (products: [ProductInf]) => {
     setProducts(products);
@@ -204,7 +205,7 @@ const HomePage = () => {
             excuteAction();
             let response = await ProductAPI.getAllProduct(page);
             setLoading(false);
-            setProducts(response.data.products.product);
+            setProducts(response.data.products._productList);
             setTotalPage(response.data.products.count);
             // setProductAndSaveInState();
           }}
