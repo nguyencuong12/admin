@@ -192,7 +192,6 @@ const HomePage = () => {
           </Link>
         </AddButton>
       </Group>
-
       <TableComponent products={products}></TableComponent>
       <PaginationWrapper>
         <Pagination

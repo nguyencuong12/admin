@@ -8,11 +8,13 @@ import SweetAlert2 from "../../utils/sweetAlert";
 const CreateProduct = () => {
   const router = useRouter();
   const onCreate = async (product: ProductInf) => {
-    console.log("PRODUCT ", product);
+    console.log("PRODUCT", product);
     let formData = new FormData();
     Object.keys(product || "").map((key) => {
-      if (key === "imageUpload") {
-        formData.append("imageUpload", product.imageUpload!);
+      if (key == "image") {
+        product.image?.forEach((value) => {
+          formData.append("image", value);
+        });
       } else {
         let data = product[key as keyof createProductInf]?.toString();
         formData.append(key, data || "");
@@ -20,7 +22,7 @@ const CreateProduct = () => {
     });
 
     let response = await ProductAPI.createProduct(formData);
-    // console.log("RESPONSE", response);
+    console.log("RESPONSE", response);
     if (response) {
       SweetAlert2.createSuccess();
     }

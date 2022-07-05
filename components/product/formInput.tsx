@@ -29,6 +29,7 @@ const FormProduct = (props: formProductProps) => {
   // const [formData, setFormData] = useState<ProductInf>();
   // const [products, setProducts] = useState<ProductInf>();
   const [file, setFile] = useState<File>();
+  const [listFile, setListFile] = useState<File[]>();
 
   const form = useForm({
     initialValues: {
@@ -37,7 +38,7 @@ const FormProduct = (props: formProductProps) => {
       price: "",
       type: "",
       hashtag: "",
-      image: "",
+      image: [],
       _id: "",
     },
   });
@@ -57,20 +58,21 @@ const FormProduct = (props: formProductProps) => {
       form.setFieldValue("hashtag", regexHashtag);
       form.setFieldValue("type", product.type);
       form.setFieldValue("_id", product._id);
-      form.setFieldValue("image", product.image.toString());
+      // form.setFieldValue("image", product.image!);
     }
   };
 
-  const getDropFile = (file: File) => {
-    setFile(file);
+  const getDropFile = (files: File[]) => {
+    setListFile(files);
   };
   const onSubmitForm = (values: ProductInf) => {
     let convertStringToArrayFromSpace = values.hashtag!.toString().split(" ");
     values.hashtag = convertStringToArrayFromSpace;
     let options = {
       ...values,
-      imageUpload: file,
+      image: listFile,
     };
+    console.log("OPTIONS", options);
     callback(options);
   };
   return (

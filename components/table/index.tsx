@@ -80,7 +80,7 @@ const TableComponent = (props: propsType) => {
         <tr key={instance._id}>
           <td data-label="Sản Phẩm">{instance.title}</td>
           <td data-label="Hình Ảnh">
-            <Image src={instance.image!.toString()} height={80} width={80} objectFit={"contain"}></Image>
+            <Image src={instance.image! && instance.image[0].toString()!} height={80} width={80} objectFit={"contain"}></Image>
           </td>
           <td data-label="Giá Tiền">{instance.price}</td>
           <td data-label="Thao Tác">

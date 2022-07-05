@@ -41,11 +41,11 @@ function Dropbox(props: DropboxProps) {
   return (
     <Dropzone
       onDrop={
-        (files) => callbackFunc(files[0])
+        (files) => callbackFunc(files)
         // console.log("accepted files", files[0])
       }
       onReject={(files) => console.log("rejected files", files)}
-      maxSize={3 * 1024 ** 5}
+      // maxSize={3 * 1024 ** 5}
       accept={IMAGE_MIME_TYPE}
     >
       {(status) => dropzoneChildren(status, theme)}
