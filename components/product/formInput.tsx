@@ -55,13 +55,10 @@ const FormProduct = (props: formProductProps) => {
   useEffect(() => {
     if (product) {
       setIntialValueForm(product);
+      console.log('PRODUCT', product);
+      setColors(product?.colors!);
     }
   }, [product]);
-  useEffect(() => {
-    if (colors) {
-      console.log('COLORS LIST CHANGE', colors);
-    }
-  }, [colors]);
 
   const setIntialValueForm = async (product: ProductInf) => {
     // const checkUndifinedProduct = product.value(obj);
@@ -87,11 +84,16 @@ const FormProduct = (props: formProductProps) => {
 
   const getDropFile = (files: File[]) => {
     console.log('files', files);
+
     setListFile(files);
   };
 
   useEffect(() => () => setColors([]), []);
-
+  useEffect(() => {
+    if (colors) {
+      console.log('NGUYEN CUONG', colors);
+    }
+  }, [colors]);
   const onSubmitForm = (values: ProductInf) => {
     let convertStringToArrayFromSpace = values.hashtag!.toString().split(' ');
     values.hashtag = convertStringToArrayFromSpace;
@@ -99,7 +101,7 @@ const FormProduct = (props: formProductProps) => {
     let options = {
       ...values,
       image: product?.image || listFile,
-      colors: product?.colors || colors,
+      colors: colors,
     };
     console.log('OPTIONS', options);
     callback(options);
@@ -107,7 +109,7 @@ const FormProduct = (props: formProductProps) => {
   function RenderColors() {
     return (
       <div>
-        {product?.colors?.map(value => {
+        {colors?.map(value => {
           return (
             <Badge
               key={value}
@@ -211,6 +213,11 @@ const FormProduct = (props: formProductProps) => {
                 onClick={() => {
                   console.log('ADDING COLOR', color);
                   setColors([...colors!, color!]);
+                  // if (product?.colors) {
+                  //   setColors([...product.colors, color!]);
+                  // } else {
+                  //   setColors([...colors!, color!]);
+                  // }
                 }}
               >
                 Add Colors
