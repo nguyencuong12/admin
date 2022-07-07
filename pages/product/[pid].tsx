@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { ProductAPI } from "../../api";
-import { ProductInf, sweetAlertInf } from "../../interface";
-import { FormInputProduct } from "../../components";
-import alertMessage from "../../components/toast";
-import SweetAlert2 from "../../utils/sweetAlert";
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { ProductAPI } from '../../api';
+import { ProductInf, sweetAlertInf } from '../../interface';
+import { FormInputProduct } from '../../components';
+import alertMessage from '../../components/toast';
+import SweetAlert2 from '../../utils/sweetAlert';
 const ViewProduct = () => {
   const router = useRouter();
   const { pid } = router.query;
@@ -18,7 +18,8 @@ const ViewProduct = () => {
   };
   useEffect(() => {
     if (pid) {
-      fetchProduct().then((response) => {
+      fetchProduct().then(response => {
+        console.log('response', response);
         setProduct(response.data.product);
       });
     }
@@ -33,21 +34,35 @@ const ViewProduct = () => {
   };
 
   const onUpdate = async (product: ProductInf) => {
+    console.log('PRODUCT UPDATE', product);
     let formData = new FormData();
-    Object.keys(product).map((key) => {
+    Object.keys(product).map(key => {
       let data = product[key as keyof ProductInf]?.toString();
-      if (key === "imageUpload") {
-        formData.append("imageUpload", product.imageUpload!);
+      if (key === 'colors') {
+        product[key]?.forEach(element => {
+          formData.append('colors[]', element);
+        });
       } else {
-        formData.append(key, data || "");
+        formData.append(key, data || '');
       }
+
+      // if (key === 'image') {
+      //   formData.append('image', product.image!);
+      // } else {
+      //   formData.append(key, data || '');
+      // }
     });
     await fetchResUpdate(formData);
   };
 
   return (
     <>
-      <FormInputProduct product={product} title={"Update Product"} btnTitle={"Update"} callback={onUpdate}></FormInputProduct>
+      <FormInputProduct
+        product={product}
+        title={'Update Product'}
+        btnTitle={'Update'}
+        callback={onUpdate}
+      ></FormInputProduct>
     </>
   );
 };

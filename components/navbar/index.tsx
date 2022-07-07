@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { ActionIcon, Burger } from "@mantine/core";
-import { AiOutlineSearch, AiOutlineLogout } from "react-icons/ai";
-import { useAppSelector, useAppDispatch } from "../../store/hook";
-import { changeMenu, setCloseMenu } from "../../store/slices/menu";
-import Link from "next/link";
-import SweetAlert2 from "../../utils/sweetAlert";
-import { useRouter } from "next/router";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { ActionIcon, Burger } from '@mantine/core';
+import { AiOutlineSearch, AiOutlineLogout } from 'react-icons/ai';
+import { useAppSelector, useAppDispatch } from '../../store/hook';
+import { changeMenu, setCloseMenu } from '../../store/slices/menu';
+import Link from 'next/link';
+import SweetAlert2 from '../../utils/sweetAlert';
+import { useRouter } from 'next/router';
 interface propsMenu {
   open: boolean;
 }
 const NavbarWrapper = styled.div`
-  /* margin-left: ${(props) => props.theme.sidebarWidth}; */
+  /* margin-left: ${props => props.theme.sidebarWidth}; */
   padding: 0px 10px;
   height: 60px;
   /* overflow: hidden; */
   position: relative;
-  background: ${(props) => props.theme.backgroundColor};
+  background: ${props => props.theme.backgroundColor};
   color: rgb(110, 117, 159);
-  box-shadow: ${(props) => props.theme.boxShadow};
-  @media only screen and (max-width: ${(props) => props.theme.breakSM}) {
+  box-shadow: ${props => props.theme.boxShadow};
+  @media only screen and (max-width: ${props => props.theme.breakSM}) {
     margin-left: 0px;
   }
 `;
 const NavbarBurger = styled(Burger)`
   display: none;
-  @media only screen and (max-width: ${(props) => props.theme.breakSM}) {
+  @media only screen and (max-width: ${props => props.theme.breakSM}) {
     display: block;
   }
 `;
@@ -59,12 +59,12 @@ const NavbarMenu = styled.ul<propsMenu>`
     /* display: none; */
     position: absolute;
     height: 100vh;
-    /* background: ${(props) => props.theme.swatches2}; */
+    /* background: ${props => props.theme.swatches2}; */
     background: #424243;
     top: 60px;
     width: 100%;
     /* left: -120%; */
-    left: ${(props) => (props.open ? "0" : "-120%")};
+    left: ${props => (props.open ? '0' : '-120%')};
     z-index: 1000;
     right: 0;
     display: flex;
@@ -104,19 +104,19 @@ const NavbarMenuItem = styled.li`
 `;
 const NavbarComponent = () => {
   const dispatch = useAppDispatch();
-  const menuState = useAppSelector((state) => state.menu.open);
+  const menuState = useAppSelector(state => state.menu.open);
   const router = useRouter();
 
   const clickBurger = () => {
     dispatch(changeMenu({}));
   };
   useEffect(() => {
-    router.events.on("routeChangeComplete", () => {
+    router.events.on('routeChangeComplete', () => {
       dispatch(setCloseMenu());
     });
     return () => {
-      router.events.off("routeChangeComplete", () => {
-        console.log("stoped");
+      router.events.off('routeChangeComplete', () => {
+        console.log('stoped');
       });
     };
   }, [router.events, dispatch]);
@@ -127,7 +127,7 @@ const NavbarComponent = () => {
         <NavbarBurger opened={menuState} onClick={() => clickBurger()} />
         {/* BURGER */}
         <Link href="/">
-          <NavbarLogo>Sashimeomeo Manager</NavbarLogo>
+          <NavbarLogo>WEBSITE</NavbarLogo>
         </Link>
         <NavbarMenu open={menuState}>
           <NavbarMenuItem>

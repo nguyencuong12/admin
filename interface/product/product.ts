@@ -7,4 +7,5 @@ export default interface ProductInterface {
   price?: string;
   hashtag?: string | Array<string>;
   id?: string;
+  colors?: string[];
 }
