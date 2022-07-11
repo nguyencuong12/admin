@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useForm } from '@mantine/form';
+import React, { useEffect, useState } from "react";
+import { useForm } from "@mantine/form";
 
-import {
-  Textarea,
-  Paper,
-  TextInput,
-  Button,
-  ColorPicker,
-  Group,
-  Badge,
-} from '@mantine/core';
-import styled from 'styled-components';
-import { DropboxComponent } from '../../components';
-import { ProductAPI } from '../../api';
-import { createProductInf, ProductInf } from '../../interface';
-import { imageOptimizer } from 'next/dist/server/image-optimizer';
+import { Textarea, Paper, TextInput, Button, ColorPicker, Group, Badge } from "@mantine/core";
+import styled from "styled-components";
+import { DropboxComponent } from "../../components";
+import { ProductAPI } from "../../api";
+import { createProductInf, ProductInf } from "../../interface";
+import { imageOptimizer } from "next/dist/server/image-optimizer";
 // import { keys } from "ts-transformer-keys";
 
 const InputWrapper = styled.div`
@@ -38,52 +30,44 @@ const FormProduct = (props: formProductProps) => {
   // const [products, setProducts] = useState<ProductInf>();
   const [file, setFile] = useState<File>();
   const [listFile, setListFile] = useState<File[]>();
-
   const [color, setColor] = useState<string>();
   const [colors, setColors] = useState<string[]>([]);
   const form = useForm({
     initialValues: {
-      title: '',
-      description: '',
-      price: '',
-      type: '',
-      hashtag: '',
+      title: "",
+      description: "",
+      price: "",
+      type: "",
+      hashtag: "",
       image: [],
-      _id: '',
+      colors: [],
+      _id: "",
     },
   });
   useEffect(() => {
     if (product) {
       setIntialValueForm(product);
-      console.log('PRODUCT', product);
+      console.log("PRODUCT", product);
       setColors(product?.colors!);
     }
   }, [product]);
 
   const setIntialValueForm = async (product: ProductInf) => {
     // const checkUndifinedProduct = product.value(obj);
-    if (
-      product._id &&
-      product.image &&
-      product.title &&
-      product.price &&
-      product.description &&
-      product.hashtag &&
-      product.type
-    ) {
-      form.setFieldValue('title', product.title);
-      form.setFieldValue('price', product.price);
-      form.setFieldValue('description', product.description);
-      let regexHashtag = product.hashtag.toString().trim().replace(/,/g, ' ');
-      form.setFieldValue('hashtag', regexHashtag);
-      form.setFieldValue('type', product.type);
-      form.setFieldValue('_id', product._id);
+    if (product._id && product.image && product.title && product.price && product.description && product.hashtag && product.type) {
+      form.setFieldValue("title", product.title);
+      form.setFieldValue("price", product.price);
+      form.setFieldValue("description", product.description);
+      let regexHashtag = product.hashtag.toString().trim().replace(/,/g, " ");
+      form.setFieldValue("hashtag", regexHashtag);
+      form.setFieldValue("type", product.type);
+      form.setFieldValue("_id", product._id);
       // form.setFieldValue("image", product.image!);
     }
   };
 
   const getDropFile = (files: File[]) => {
-    console.log('files', files);
+    console.log("files", files);
 
     setListFile(files);
   };
@@ -91,30 +75,30 @@ const FormProduct = (props: formProductProps) => {
   useEffect(() => () => setColors([]), []);
   useEffect(() => {
     if (colors) {
-      console.log('NGUYEN CUONG', colors);
+      console.log("NGUYEN CUONG", colors);
     }
   }, [colors]);
   const onSubmitForm = (values: ProductInf) => {
-    let convertStringToArrayFromSpace = values.hashtag!.toString().split(' ');
+    let convertStringToArrayFromSpace = values.hashtag!.toString().split(" ");
     values.hashtag = convertStringToArrayFromSpace;
-    console.log('values', values);
+    console.log("values", values);
     let options = {
       ...values,
       image: product?.image || listFile,
       colors: colors,
     };
-    console.log('OPTIONS', options);
+    console.log("OPTIONS", options);
     callback(options);
   };
   function RenderColors() {
     return (
       <div>
-        {colors?.map(value => {
+        {colors?.map((value) => {
           return (
             <Badge
               key={value}
               variant="outline"
-              sx={{ padding: 10, margin: 2, color: '#fff', background: value }}
+              sx={{ padding: 10, margin: 2, color: "#fff", background: value }}
               // rightSection={removeButton}
             >
               Colors
@@ -129,44 +113,14 @@ const FormProduct = (props: formProductProps) => {
       <Paper shadow="lg" radius="md" p="md">
         <h2>{title}</h2>
         <Content>
-          <form onSubmit={form.onSubmit(values => onSubmitForm(values))}>
-            <TextInput
-              placeholder="Product Name"
-              label="Product"
-              required
-              value={form.values.title}
-              onChange={event =>
-                form.setFieldValue('title', event.target.value)
-              }
-            />
+          <form onSubmit={form.onSubmit((values) => onSubmitForm(values))}>
+            <TextInput placeholder="Product Name" label="Product" required value={form.values.title} onChange={(event) => form.setFieldValue("title", event.target.value)} />
             <br />
-            <Textarea
-              placeholder="Product Description"
-              label="Description"
-              required
-              value={form.values.description}
-              onChange={event =>
-                form.setFieldValue('description', event.target.value)
-              }
-            />
+            <Textarea placeholder="Product Description" label="Description" required value={form.values.description} onChange={(event) => form.setFieldValue("description", event.target.value)} />
             <br />
-            <TextInput
-              placeholder="Product Price"
-              label="Price"
-              required
-              value={form.values.price}
-              onChange={event =>
-                form.setFieldValue('price', event.target.value)
-              }
-            />
+            <TextInput placeholder="Product Price" label="Price" required value={form.values.price} onChange={(event) => form.setFieldValue("price", event.target.value)} />
             <br />
-            <TextInput
-              placeholder="Product Type"
-              label="Type"
-              required
-              value={form.values.type}
-              onChange={event => form.setFieldValue('type', event.target.value)}
-            />
+            <TextInput placeholder="Product Type" label="Type" required value={form.values.type} onChange={(event) => form.setFieldValue("type", event.target.value)} />
             <br />
             <h5>Product Image:</h5>
             <DropboxComponent callbackFunc={getDropFile}></DropboxComponent>
@@ -175,55 +129,7 @@ const FormProduct = (props: formProductProps) => {
             <br />
             <br />
 
-            <Textarea
-              label="Hashtag"
-              placeholder="Hashtag"
-              required
-              value={form.values.hashtag}
-              onChange={event =>
-                form.setFieldValue('hashtag', event.target.value)
-              }
-            />
-            <br />
-
-            <Group>
-              <ColorPicker
-                format="hex"
-                swatches={[
-                  '#25262b',
-                  '#868e96',
-                  '#fa5252',
-                  '#e64980',
-                  '#be4bdb',
-                  '#7950f2',
-                  '#4c6ef5',
-                  '#228be6',
-                  '#15aabf',
-                  '#12b886',
-                  '#40c057',
-                  '#82c91e',
-                  '#fab005',
-                  '#fd7e14',
-                ]}
-                onChange={(color: string) => {
-                  setColor(color);
-                }}
-              />
-              <Button
-                onClick={() => {
-                  console.log('ADDING COLOR', color);
-                  setColors([...colors!, color!]);
-                  // if (product?.colors) {
-                  //   setColors([...product.colors, color!]);
-                  // } else {
-                  //   setColors([...colors!, color!]);
-                  // }
-                }}
-              >
-                Add Colors
-              </Button>
-            </Group>
-
+            <Textarea label="Hashtag" placeholder="Hashtag" required value={form.values.hashtag} onChange={(event) => form.setFieldValue("hashtag", event.target.value)} />
             <br />
 
             <div className="colors">
@@ -231,6 +137,33 @@ const FormProduct = (props: formProductProps) => {
                 <RenderColors></RenderColors>
               </Group>
             </div>
+            <br />
+            <Group>
+              <ColorPicker
+                swatches={["#25262b", "#868e96", "#fa5252", "#e64980", "#be4bdb", "#7950f2", "#4c6ef5", "#228be6", "#15aabf", "#12b886", "#40c057", "#82c91e", "#fab005", "#fd7e14"]}
+                onChange={(color: string) => {
+                  console.log("print color", color);
+                  setColor(color);
+                }}
+              ></ColorPicker>
+              <Button
+                onClick={() => {
+                  if (colors == undefined) {
+                    console.log("PRINT CALL (1)");
+                    setColors([color!]);
+                  } else {
+                    console.log("PRINT CALL (2)");
+                    setColors([...colors!, color!]);
+                  }
+                  console.log("COLORS ADDING ", colors);
+
+                  // setColors([...colors!, color!]);
+                }}
+              >
+                Add Colors
+              </Button>
+            </Group>
+
             <br />
             <Button type="submit" fullWidth>
               {btnTitle}
@@ -244,5 +177,5 @@ const FormProduct = (props: formProductProps) => {
 
 export default FormProduct;
 function componentWillUnmount() {
-  throw new Error('Function not implemented.');
+  throw new Error("Function not implemented.");
 }
