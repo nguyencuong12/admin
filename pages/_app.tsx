@@ -10,29 +10,32 @@ import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-  const [showNav, setShowNav] = useState(false);
+    const router = useRouter();
+    const [showNav, setShowNav] = useState(false);
 
-  useEffect(() => {
-    if (localStorage.getItem("access_token")) {
-      setShowNav(true);
-    } else {
-      setShowNav(false);
-    }
-  }, []);
-  return (
-    <Provider store={store}>
-      <Head>
-        <title>Admin Sashimeomeo</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-      </Head>
-      <ThemeProvider theme={variable}>
-        {showNav && <NavbarComponent></NavbarComponent>}
-        <BodyComponent>
-          <Component {...pageProps} />
-        </BodyComponent>
-      </ThemeProvider>
-    </Provider>
-  );
+    useEffect(() => {
+        if (localStorage.getItem("access_token")) {
+            setShowNav(true);
+        } else {
+            setShowNav(false);
+        }
+    }, []);
+    return (
+        <Provider store={store}>
+            <Head>
+                <title>Admin Sashimeomeo</title>
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+                />
+            </Head>
+            <ThemeProvider theme={variable}>
+                {showNav && <NavbarComponent></NavbarComponent>}
+                <BodyComponent>
+                    <Component {...pageProps} />
+                </BodyComponent>
+            </ThemeProvider>
+        </Provider>
+    );
 }
 export default MyApp;
