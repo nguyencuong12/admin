@@ -6,11 +6,11 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ["https://api.sashimeomeo.com", "localhost", "api.sashimeomeo.com"],
+    domains: ["http://api.sashimeomeo.com", "localhost", "api.sashimeomeo.com"],
   },
   env: {
     // HOST_API: "https://api.sashimeomeo.com",
-    HOST_API: "http://localhost:5000",
+    HOST_API: "http://api.sashimeomeo.com",
   },
 };
 
