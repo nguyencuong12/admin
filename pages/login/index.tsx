@@ -57,8 +57,7 @@ const LoginPage = () => {
                 }}
             >
                 <h2 style={{ textAlign: "center" }}>
-                    <span style={{ color: "red" }}>Sashi</span>
-                    meomeo{" "}
+                    <span style={{ color: "red" }}>Gas</span> -Anh Kiet{" "}
                 </h2>
                 <TextInput
                     placeholder="Nhập Tên Đăng Nhập"

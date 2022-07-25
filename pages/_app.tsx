@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <Provider store={store}>
             <Head>
-                <title>Admin Sashimeomeo</title>
+                <title>Gas Anh Kiet</title>
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
