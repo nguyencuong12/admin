@@ -16,7 +16,7 @@ import { ProductAPI, SearchAPI } from "../api";
 import { DeleteModal } from "../components";
 import alertMessage from "../components/toast";
 import { sweetAlertInf } from "../interface";
-import { ProductInf } from "../interface";
+import { ProductUpdateInf } from "../interface";
 // import { DialogDelete } from "../components";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -67,7 +67,7 @@ const HomePage = () => {
     // ********* HOOK ***********
     const router = useRouter();
 
-    const [products, setProducts] = useState<ProductInf[] | []>([]);
+    const [products, setProducts] = useState<ProductUpdateInf[] | []>([]);
     const [activePage, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [totalPage, setTotalPage] = useState(1);
@@ -129,7 +129,8 @@ const HomePage = () => {
         console.log("response ", response);
         return response.data.products._productList;
     };
-    const saveProductInState = async (products: [ProductInf]) => {
+    const saveProductInState = async (products: [ProductUpdateInf]) => {
+        console.log("products", products);
         setProducts(products);
         setLoading(false);
     };
