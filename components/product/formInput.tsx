@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "@mantine/form";
 
-import { Textarea, Paper, TextInput, Button, ColorPicker, Group, Badge } from "@mantine/core";
+import { Textarea, Paper, TextInput, Button, ColorPicker, Group, Badge, Grid } from "@mantine/core";
 import styled from "styled-components";
 import { DropboxComponent } from "../../components";
 import { ProductAPI } from "../../api";
 import { ProductCreateInf, ProductUpdateInf } from "../../interface";
 import { imageOptimizer } from "next/dist/server/image-optimizer";
+import Image from "next/image";
 // import { keys } from "ts-transformer-keys";
 
 const InputWrapper = styled.div`
@@ -48,7 +49,6 @@ const FormProduct = (props: formProductProps) => {
     useEffect(() => {
         if (product) {
             setIntialValueForm(product);
-            console.log("PRODUCT", product);
             setColors(product?.colors!);
         }
     }, [product]);
@@ -183,8 +183,48 @@ const FormProduct = (props: formProductProps) => {
                             onChange={(event) => form.setFieldValue("type", event.target.value)}
                         />
                         <br />
-                        <h5>Product Image:</h5>
-                        <DropboxComponent callbackFunc={getDropFile}></DropboxComponent>
+                        {type === "create" && (
+                            <>
+                                <h5>Product Image:</h5>
+                                <DropboxComponent callbackFunc={getDropFile}></DropboxComponent>
+                                <br />
+                            </>
+                        )}
+                        {type === "update" && (
+                            <div className="img-preview">
+                                <h4>Image Preview:</h4>
+                                <Grid>
+                                    {product &&
+                                        product.image?.map((value) => {
+                                            // return <h1>AAA</h1>;
+                                            return (
+                                                <Grid.Col md={4}>
+                                                    <div
+                                                        style={{
+                                                            cursor: "pointer",
+                                                            padding: "20px",
+                                                            borderRadius: "5px",
+                                                            border: "1px solid green",
+                                                        }}
+                                                    >
+                                                        <Image
+                                                            height={30}
+                                                            width={50}
+                                                            layout="responsive"
+                                                            objectFit="contain"
+                                                            src={value.path}
+                                                        ></Image>
+                                                    </div>
+                                                </Grid.Col>
+                                            );
+                                        })}
+                                    {/* <Grid.Col md = {6}></Grid.Col>
+                              
+                              <Grid.Col md = {6}></Grid.Col> */}
+                                </Grid>
+                                {/* {product?.image[0].path} */}
+                            </div>
+                        )}
                         <br />
                         <strong>FileName: {file?.name}</strong>
                         <br />
