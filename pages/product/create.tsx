@@ -27,8 +27,6 @@ const CreateProduct = () => {
             }
         });
 
-        console.log("product create", product);
-
         let response = await ProductAPI.createProduct(formData);
         console.log("RESPONSE", response);
         if (response) {
