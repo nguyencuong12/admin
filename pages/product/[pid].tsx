@@ -10,12 +10,19 @@ const ViewProduct = () => {
     const router = useRouter();
     const { pid } = router.query;
     const [product, setProduct] = useState<ProductUpdateInf>();
-    // const [update, setUpdate] = useState(false);
-    // const [aa, setAA] = useState();
+    const [reRender, setReRender] = useState<boolean>(false);
 
     const fetchProduct = async () => {
         return await ProductAPI.getProduct(pid);
     };
+    const updateProduct = () => {
+        // setReRender(!reRender);
+    };
+    useEffect(() => {
+        if (product) {
+            setProduct(product);
+        }
+    }, [product]);
     useEffect(() => {
         if (pid) {
             fetchProduct().then((response) => {
@@ -24,7 +31,6 @@ const ViewProduct = () => {
             });
         }
     }, [pid]);
-    useEffect(() => {}, [product]);
 
     const fetchResUpdate = async (data: FormData) => {
         let response = await ProductAPI.updateProduct(data);
@@ -34,13 +40,18 @@ const ViewProduct = () => {
     };
 
     const onUpdate = async (product: ProductUpdateInf) => {
-        console.log("PRODUCT UPDATE", product);
         let formData = new FormData();
+        console.log("PRODUCT", product);
         Object.keys(product).map((key) => {
             let data = product[key as keyof ProductUpdateInf]?.toString();
             if (key === "colors") {
                 product[key]?.forEach((element) => {
                     formData.append("colors[]", element);
+                });
+            }
+            if (key === "image") {
+                product[key]?.map((item) => {
+                    formData.append("imageUpdate", item.imageUpdate);
                 });
             } else {
                 formData.append(key, data || "");
@@ -52,17 +63,20 @@ const ViewProduct = () => {
             //   formData.append(key, data || '');
             // }
         });
-        await fetchResUpdate(formData);
+        let response = await ProductAPI.updateProduct(formData);
+
+        // await fetchResUpdate(formData);
     };
 
     return (
         <>
             <FormInputProduct
                 product={product}
-                title={"Update Product"}
+                title={"Hello"}
                 btnTitle={"Update"}
                 callback={onUpdate}
                 type={"update"}
+                updateProduct={updateProduct}
             ></FormInputProduct>
         </>
     );

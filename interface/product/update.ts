@@ -4,6 +4,7 @@
 interface ProductImage {
     id:string;
     path:string;
+    imageUpdate:File;
 }
 export default interface ProductUpdateInf {
     _id?: string;
