@@ -12,23 +12,18 @@ const ViewProduct = () => {
   const [product, setProduct] = useState<ProductUpdateInf>();
   const [reRender, setReRender] = useState<boolean>(false);
 
-  const fetchProduct = async () => {
-    return await ProductAPI.getProduct(pid);
-  };
-  const updateProduct = () => {
-    // setReRender(!reRender);
-  };
   useEffect(() => {
     if (product) {
+      //CALL WHEN PRODUCTS CHANGE
       setProduct(product);
     }
   }, [product]);
   useEffect(() => {
     if (pid) {
-      fetchProduct().then(response => {
-        console.log('response', response);
-        setProduct(response.data.product);
-      });
+      fetchProductByIDAndSave();
+      // fetchProductByID().then(response => {
+      //   setProduct(response.data.product);
+      // });
     }
   }, [pid]);
 
@@ -37,6 +32,46 @@ const ViewProduct = () => {
     if (response) {
       SweetAlert2.updateSuccess();
     }
+  };
+
+  const onHandleUpdate = async () => {
+    if (product) {
+      let response = await ProductAPI.updateProduct(
+        getFormDataForUpdate(product)
+      );
+      if (response) {
+        SweetAlert2.updateSuccess();
+      }
+    }
+  };
+  const onHandleUpdateForImage = async () => {};
+  const onHandleDeleteForImage = async () => {};
+  const onHandleAlertSuccess = async () => {};
+
+  function getFormDataForUpdate(product: ProductUpdateInf): FormData {
+    let formData = new FormData();
+    Object.keys(product).map(key => {
+      let data = product[key as keyof ProductUpdateInf]?.toString();
+      if (key === 'colors') {
+        product[key]?.forEach(element => {
+          formData.append('colors[]', element);
+        });
+      }
+      if (key === 'imageUpdate') {
+        product[key]?.forEach(element => {
+          formData.append('imageUpdate', element);
+        });
+        // formData.append('imageUpdate', element);
+      } else {
+        formData.append(key, data || '');
+      }
+    });
+    return formData;
+  }
+
+  const fetchProductByIDAndSave = async () => {
+    let response = await ProductAPI.getProduct(pid);
+    if (response) setProduct(response.data.product);
   };
 
   const onUpdate = async (product: ProductUpdateInf) => {
@@ -72,11 +107,11 @@ const ViewProduct = () => {
     <>
       <FormInputProduct
         product={product}
-        title={'Hello'}
+        title={'Cập nhật sản phẩm'}
         btnTitle={'Update'}
         callback={onUpdate}
         type={'update'}
-        updateProduct={updateProduct}
+        // updateProduct={updateProduct}
       ></FormInputProduct>
     </>
   );

@@ -86,7 +86,7 @@ const FormProduct = (props: formProductProps) => {
   const [listFile, setListFile] = useState<File[]>();
   const [color, setColor] = useState<string>();
   const [colors, setColors] = useState<string[]>([]);
-  const openRef = useRef<() => void>(open);
+  const openRef = useRef<() => void>(null);
   const [productList, setProductList] = useState<ProductUpdateInf>();
   const [selectImageUpdateByID, setSelectImageUpdate] = useState<string>();
   const [imagesUpdate, setImageUpdate] = useState<any>([]) || [];
@@ -322,7 +322,8 @@ const FormProduct = (props: formProductProps) => {
                                   fullWidth
                                   color={'green'}
                                   onClick={() => {
-                                    openRef.current();
+                                    if (null != openRef.current)
+                                      openRef.current();
                                     onHandleProductImage('update', item.id);
                                   }}
                                 >
