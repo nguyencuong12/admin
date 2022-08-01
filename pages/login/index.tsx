@@ -39,9 +39,10 @@ const LoginPage = () => {
     };
     const onSubmit = async () => {
         const response = await Auth_API.login(formData);
-        console.log("response", response);
+        console.log("response access", response);
         if (response) {
             localStorage.setItem("access_token", response.data.access_token);
+
             SweetAlert2.loginSuccess();
             //   SweetAlert2.loginSuccess();
             //   router.push("/");

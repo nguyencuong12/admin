@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import { ProductAPI } from "../api";
-
+  
 const SweetAlert2 = {
   loginSuccess: () => {
     Swal.fire({
@@ -38,7 +38,9 @@ const SweetAlert2 = {
       //   footer: '<a href="">Why do I have this issue?</a>',
     });
   },
-  updateSuccess: () => {
+  updateSuccess: (
+    callback:Function
+  ) => {
     Swal.fire({
       position: "top-end",
       icon: "success",
@@ -46,7 +48,9 @@ const SweetAlert2 = {
       showConfirmButton: false,
       timer: 1000,
     }).then((result) => {
-      window.location.href = "/";
+      // window.location.href = "/";
+      callback();
+
     });
   },
   createSuccess: () => {

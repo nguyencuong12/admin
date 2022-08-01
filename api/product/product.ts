@@ -1,5 +1,5 @@
 import { default as axios } from "../axios";
-import { ProductInf } from "../../interface/";
+import { ProductUpdateInf } from "../../interface/";
 
 let url = "/products";
 const Product = {
@@ -24,6 +24,18 @@ const Product = {
       // },
     });
   },
+  deleteImagesProduct:async(id:string,idImage:string)=>{
+    return await axios({
+      method:"POST",
+      url:url + "/deleteImages",
+      headers: {
+     
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        // Authorization: `${localStorage.getItem("access_token")}`,
+      },
+     data:{id,idImage},
+    })
+  },
   getTotalAmountProduct: async () => {
     return await axios({
       method: "POST",
@@ -33,8 +45,7 @@ const Product = {
   updateProduct: async (product: any) => {
     // const { _id } = product;
     console.log("PRODUCT", product);
-    var a = localStorage.getItem("access_token");
-    console.log("a", a);
+  
     return await axios({
       method: "POST",
       url: url + "/update",
