@@ -48,6 +48,7 @@ const ViewProduct = () => {
                     formData.append("imageUpdate", element);
                 });
                 // formData.append('imageUpdate', element);
+            } else if (key === "imageDelete") {
             } else if (key === "image") {
                 product[key]?.forEach((element) => {
                     formData.append("image[]", JSON.stringify(element));
@@ -63,10 +64,10 @@ const ViewProduct = () => {
     const onHandleUpdateProduct = async (product: ProductUpdateInf) => {
         let formData = getFormDataForRequest(product);
         let response = await ProductAPI.updateProduct(formData);
-        if (response) {
-            await fetchProductFromIDAndSaveInState();
-            SweetAlert2.updateSuccess(redirectHome);
-        }
+        // if (response) {
+        //     await fetchProductFromIDAndSaveInState();
+        //     SweetAlert2.updateSuccess(redirectHome);
+        // }
     };
     const redirectHome = () => {
         // router.push("/");

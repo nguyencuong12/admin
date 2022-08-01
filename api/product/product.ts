@@ -1,11 +1,11 @@
-import { default as axios } from "../axios";
-import { ProductUpdateInf } from "../../interface/";
+import { default as axios } from '../axios';
+import { ProductUpdateInf } from '../../interface/';
 
-let url = "/products";
+let url = '/products';
 const Product = {
   getAllProduct: async (page: number) => {
     return await axios({
-      method: "GET",
+      method: 'GET',
       url: url,
 
       params: {
@@ -15,10 +15,10 @@ const Product = {
     // return await axios.get(url);
   },
   getProduct: async (id: any) => {
-    console.log("ID asdasd", id);
+    console.log('ID asdasd', id);
     return await axios({
-      method: "GET",
-      url: url + "/" + id,
+      method: 'GET',
+      url: url + '/' + id,
       // params: {
       //   id: id,
       // },
@@ -38,21 +38,20 @@ const Product = {
   },
   getTotalAmountProduct: async () => {
     return await axios({
-      method: "POST",
-      url: url + "/total-amount",
+      method: 'POST',
+      url: url + '/total-amount',
     });
   },
-  updateProduct: async (product: any) => {
-    // const { _id } = product;
-    console.log("PRODUCT", product);
-  
+  updateProduct: async (formData: FormData) => {
+    var a = localStorage.getItem('access_token');
+    console.log('a', a);
     return await axios({
-      method: "POST",
-      url: url + "/update",
-      data: product,
+      method: 'POST',
+      url: url + '/update',
+      data: formData,
       headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         // Authorization: `${localStorage.getItem("access_token")}`,
       },
     });
@@ -60,22 +59,22 @@ const Product = {
 
   createProduct: async (data: any) => {
     return await axios({
-      method: "POST",
+      method: 'POST',
       url: url,
       data: data,
       headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         // Authorization: `${localStorage.getItem("access_token")}`,
       },
     });
   },
   deleteProduct: async (id: any) => {
     return await axios({
-      method: "DELETE",
+      method: 'DELETE',
       url: url,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       },
       params: {
         id: id,
