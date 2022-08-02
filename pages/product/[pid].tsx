@@ -64,10 +64,10 @@ const ViewProduct = () => {
     const onHandleUpdateProduct = async (product: ProductUpdateInf) => {
         let formData = getFormDataForRequest(product);
         let response = await ProductAPI.updateProduct(formData);
-        // if (response) {
-        //     await fetchProductFromIDAndSaveInState();
-        //     SweetAlert2.updateSuccess(redirectHome);
-        // }
+        if (response) {
+            await fetchProductFromIDAndSaveInState();
+            SweetAlert2.updateSuccess(redirectHome);
+        }
     };
     const redirectHome = () => {
         // router.push("/");
