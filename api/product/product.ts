@@ -7,7 +7,6 @@ const Product = {
     return await axios({
       method: 'GET',
       url: url,
-
       params: {
         currentPage: page,
       },

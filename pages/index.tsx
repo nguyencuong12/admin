@@ -207,6 +207,13 @@ const HomePage = () => {
                 >
                     TEST
                 </Button>
+                <Button
+                    onClick={() => {
+                        router.push("/crawler");
+                    }}
+                >
+                    Crawlers
+                </Button>
                 <AddButton>
                     <Link href="/product/create">
                         <Button
