@@ -23,11 +23,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <Provider store={store}>
             <Head>
-                <title>My Website</title>
+                <title>Anh kiet Admin</title>
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
                 />
+                <meta name="googlebot" content="noindex" />
+                <meta name="robots" content="noindex" />
             </Head>
             <ThemeProvider theme={variable}>
                 {showNav && <NavbarComponent></NavbarComponent>}

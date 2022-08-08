@@ -22,6 +22,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import TableComponent from "../components/table";
+import Head from "next/head";
 
 const HomePageWrapper = styled.div``;
 
@@ -171,82 +172,74 @@ const HomePage = () => {
         saveProductInState(response.data.searchResults);
     };
     return (
-        <HomePageWrapper>
-            <DeleteModal show={dialogDelete} deleteFunc={onDeleteCallback}></DeleteModal>
-            <Group
-                position="apart"
-                style={{ paddingBottom: "20px" }}
-                onKeyUp={(e) => {
-                    if (e.keyCode === 13) {
-                        submitSearch();
-                    }
-                }}
-            >
-                <Input
-                    size="sm"
-                    placeholder="Search Product"
-                    onChange={(e: any) => {
-                        setSearchField(e.target.value);
-                    }}
-                    rightSection={
-                        <ActionIcon variant="transparent" onClick={submitSearch}>
-                            <FaSearch size={20}></FaSearch>
-                        </ActionIcon>
-                    }
+        <>
+            <Head>
+                <title>Anh kiet Admin</title>
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
                 />
-                <Button
-                    onClick={() => {
-                        //  if (!localStorage.getItem("access_token")) {
-                        //   router.push("/login");
-                        // } else {
-                        //   fetchAllProduct();
-                        // }
-                        localStorage.removeItem("access_token");
-                        router.push("/login");
+                <meta name="googlebot" content="noindex" />
+                <meta name="robots" content="noindex" />
+            </Head>
+            <HomePageWrapper>
+                <DeleteModal show={dialogDelete} deleteFunc={onDeleteCallback}></DeleteModal>
+                <Group
+                    position="apart"
+                    style={{ paddingBottom: "20px" }}
+                    onKeyUp={(e) => {
+                        if (e.keyCode === 13) {
+                            submitSearch();
+                        }
                     }}
                 >
-                    TEST
-                </Button>
-                <Button
-                    onClick={() => {
-                        router.push("/crawler");
-                    }}
-                >
-                    Crawlers
-                </Button>
-                <AddButton>
-                    <Link href="/product/create">
-                        <Button
-                            size={"sm"}
-                            color={"teal"}
-                            fullWidth={true}
-                            component={"a"}
-                            href="/product/create"
-                        >
-                            Add
-                        </Button>
-                    </Link>
-                </AddButton>
-            </Group>
-            <TableComponent products={products}></TableComponent>
-            <PaginationWrapper>
-                <Pagination
-                    // Math.ceil(total_items/limit);
-                    total={Math.ceil(totalPage / 4)}
-                    color="cyan"
-                    page={activePage}
-                    onChange={async (page: number) => {
-                        setPage(page);
-                        excuteAction();
-                        let response = await ProductAPI.getAllProduct(page);
-                        setLoading(false);
-                        setProducts(response.data.products._productList);
-                        setTotalPage(response.data.products.count);
-                        // setProductAndSaveInState();
-                    }}
-                />
-            </PaginationWrapper>
-        </HomePageWrapper>
+                    <Input
+                        size="sm"
+                        placeholder="Search Product"
+                        onChange={(e: any) => {
+                            setSearchField(e.target.value);
+                        }}
+                        rightSection={
+                            <ActionIcon variant="transparent" onClick={submitSearch}>
+                                <FaSearch size={20}></FaSearch>
+                            </ActionIcon>
+                        }
+                    />
+
+                    <AddButton>
+                        <Link href="/product/create">
+                            <Button
+                                size={"sm"}
+                                color={"teal"}
+                                fullWidth={true}
+                                component={"a"}
+                                href="/product/create"
+                            >
+                                Add
+                            </Button>
+                        </Link>
+                    </AddButton>
+                </Group>
+                <TableComponent products={products}></TableComponent>
+                <PaginationWrapper>
+                    <Pagination
+                        // Math.ceil(total_items/limit);
+                        total={Math.ceil(totalPage / 4)}
+                        color="cyan"
+                        page={activePage}
+                        onChange={async (page: number) => {
+                            setPage(page);
+                            excuteAction();
+                            let response = await ProductAPI.getAllProduct(page);
+                            setLoading(false);
+                            setProducts(response.data.products._productList);
+                            setTotalPage(response.data.products.count);
+                            // setProductAndSaveInState();
+                        }}
+                    />
+                </PaginationWrapper>
+            </HomePageWrapper>
+        </>
     );
 };
 
