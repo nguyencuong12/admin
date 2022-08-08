@@ -194,26 +194,6 @@ const HomePage = () => {
                         </ActionIcon>
                     }
                 />
-                <Button
-                    onClick={() => {
-                        //  if (!localStorage.getItem("access_token")) {
-                        //   router.push("/login");
-                        // } else {
-                        //   fetchAllProduct();
-                        // }
-                        localStorage.removeItem("access_token");
-                        router.push("/login");
-                    }}
-                >
-                    TEST
-                </Button>
-                <Button
-                    onClick={() => {
-                        router.push("/crawler");
-                    }}
-                >
-                    Crawlers
-                </Button>
                 <AddButton>
                     <Link href="/product/create">
                         <Button
