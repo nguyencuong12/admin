@@ -7,7 +7,6 @@ const Wrapper = styled.div``;
 const CrawlerComponent = () => {
     const handleParseUrl = async () => {
         // const Fuse = (await import("react")).default;
-
         const ShopeeAPI = (await import("../../api/crawler")).default;
         let response = await ShopeeAPI.getProductByID("17642587434", "736867547");
         console.log("RESPONSE (1)", response);
