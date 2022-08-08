@@ -14,4 +14,5 @@ export default interface ProductUpdateInf {
   id?: string;
   colors?: string[];
   imageUpdate?: [File];
+  categories?: string[];
 }
