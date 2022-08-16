@@ -1,5 +1,4 @@
 
-import { keys } from 'ts-transformer-keys';
 
 interface imageInterface {
     catid: number;
@@ -32,9 +31,6 @@ export default interface ShopeeInf {
     discount:string;
     attributes:[attributesInterface];
 }
-
-const keysOfProps = keys<ShopeeInf>();
-console.log("KEY",keysOfProps);
 
 
 
