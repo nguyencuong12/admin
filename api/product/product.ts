@@ -23,17 +23,16 @@ const Product = {
       // },
     });
   },
-  deleteImagesProduct:async(id:string,idImage:string)=>{
+  deleteImagesProduct: async (id: string, idImage: string) => {
     return await axios({
-      method:"POST",
-      url:url + "/deleteImages",
+      method: 'POST',
+      url: url + '/deleteImages',
       headers: {
-     
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         // Authorization: `${localStorage.getItem("access_token")}`,
       },
-     data:{id,idImage},
-    })
+      data: { id, idImage },
+    });
   },
   getTotalAmountProduct: async () => {
     return await axios({
@@ -60,7 +59,9 @@ const Product = {
     return await axios({
       method: 'POST',
       url: url,
-      data: data,
+      data: {
+        data,
+      },
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
