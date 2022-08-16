@@ -23,6 +23,7 @@ import Image from "next/image";
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import TableComponent from "../components/table";
 import Head from "next/head";
+import CrawlerAPI_SHOPEE from "../api/crawler";
 
 const HomePageWrapper = styled.div``;
 
@@ -205,6 +206,18 @@ const HomePage = () => {
                             </ActionIcon>
                         }
                     />
+
+                    <Button
+                        size={"sm"}
+                        color={"teal"}
+                        component={"a"}
+                        href={"/crawler"}
+                        // onClick={() => {
+                        //     CrawlerAPI_SHOPEE.getProductByID("ASDADASDS");
+                        // }}
+                    >
+                        Crawler
+                    </Button>
 
                     <AddButton>
                         <Link href="/product/create">

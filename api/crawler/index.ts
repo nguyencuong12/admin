@@ -7,10 +7,10 @@ const CrawlerAPI_SHOPEE = {
   getProductByID: async (shopeeUrl: String) => {
     return axios({
       url: url,
-      method: 'GET',
-      params: {
-        shopeeUrl,
-      },
+      method: 'POST',
+      data:{
+        shopeeUrl
+      }
     });
   },
 };
