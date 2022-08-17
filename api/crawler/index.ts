@@ -21,6 +21,13 @@ const CrawlerAPI_SHOPEE = {
       data: product,
     });
   },
+  fetchProductFromCategories:(categories:string[])=>{
+    return axios({
+      url: '/shopee/categories',
+      method: 'POST',
+      data: categories,
+    });
+  }
 };
 
 export default CrawlerAPI_SHOPEE;

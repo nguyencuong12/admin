@@ -27,4 +27,6 @@ export default interface ShopeeInf {
   brand: string;
   discount: string;
   attributes: [attributesInterface];
+  tag: string[];
+  
 }
