@@ -2,12 +2,12 @@
 import ShopeeInf from '../../interface/product/shopee';
 import { default as axios } from '../axios';
 
-let url = '/products/getProductShopee';
+let url = '/shopee';
 
 const CrawlerAPI_SHOPEE = {
-  getProductByID: async (shopeeUrl: String) => {
+  getProductByURL: async (shopeeUrl: String) => {
     return axios({
-      url: url,
+      url: url+"/getProductShopee",
       method: 'POST',
       data: {
         shopeeUrl,
@@ -21,6 +21,19 @@ const CrawlerAPI_SHOPEE = {
       data: product,
     });
   },
+  fetchAllProductInShopee:()=>{
+    return axios({
+      url: '/shopee',
+      method: 'GET',
+    });
+  },
+  fetchProductFromItemID:(itemID:any)=>{
+    return axios({
+      url: `/shopee/${itemID}`,
+      method: 'GET',
+    });
+  },
+
   fetchProductFromCategories:(categories:string[])=>{
     return axios({
       url: '/shopee/categories',

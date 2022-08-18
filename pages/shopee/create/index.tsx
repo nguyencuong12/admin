@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Group, Input, Button, Container, TextInput, Textarea, Select } from "@mantine/core";
 import styled from "styled-components";
 import { Search } from "tabler-icons-react";
-import CrawlerAPI_SHOPEE from "../../api/crawler";
+import CrawlerAPI_SHOPEE from "../../../api/crawler";
 const Wrapper = styled.div``;
-const CrawlerComponent = () => {
+const ShopeeCreate = () => {
     const [url, setUrl] = useState("");
     const [product, setProduct] = useState<any>();
     const [data, setData] = useState([{ value: "sadasdasda", label: "adsadasdas" }]);
     const [tag, setTag] = useState<string[]>([]);
 
     const handleParseUrl = async () => {
-        const ShopeeAPI = (await import("../../api/crawler")).default;
+        const ShopeeAPI = (await import("../../../api/crawler")).default;
         let response = await ShopeeAPI.getProductByURL(url);
         setProduct(response.data.products.data);
     };
     const onCreateProductShopee = async () => {
-        const ShopeeAPI = (await import("../../api/crawler")).default;
+        const ShopeeAPI = (await import("../../../api/crawler")).default;
         if (product) {
             let shopeeProduct = {
                 itemid: product.itemid,
@@ -40,7 +40,6 @@ const CrawlerComponent = () => {
             console.log("response shopee create", response);
         }
     };
-    // console.log("TEST", test);
 
     return (
         <Wrapper>
@@ -54,19 +53,8 @@ const CrawlerComponent = () => {
                             setUrl(event.currentTarget.value);
                         }}
                     />
-                    <Button style={{ width: "100px" }} onClick={() => handleParseUrl()}>
-                        Parse
-                    </Button>
-                    <Button
-                        onClick={async () => {
-                            let response = await CrawlerAPI_SHOPEE.fetchProductFromCategories([
-                                "Thức ăn cho mèo",
-                                "Thức ăn cho thú cưng",
-                            ]);
-                            console.log("RESPONSE", response);
-                        }}
-                    >
-                        Product Categories
+                    <Button style={{ width: "120px" }} onClick={() => handleParseUrl()}>
+                        Get Product
                     </Button>
                 </Group>
                 <br />
@@ -173,4 +161,4 @@ const CrawlerComponent = () => {
     );
 };
 
-export default CrawlerComponent;
+export default ShopeeCreate;

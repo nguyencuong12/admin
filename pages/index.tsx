@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
-import {
-    ActionIcon,
-    Pagination,
-    Button,
-    Modal,
-    LoadingOverlay,
-    DEFAULT_THEME,
-    Group,
-    Input,
-} from "@mantine/core";
+import { ActionIcon, Pagination, Button, Group, Input } from "@mantine/core";
 import Link from "next/link";
 import { ProductAPI, SearchAPI } from "../api";
 import { DeleteModal } from "../components";
@@ -19,11 +10,9 @@ import { sweetAlertInf } from "../interface";
 import { ProductUpdateInf } from "../interface";
 // import { DialogDelete } from "../components";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import { Table } from "react-super-responsive-table";
 import TableComponent from "../components/table";
 import Head from "next/head";
-import CrawlerAPI_SHOPEE from "../api/crawler";
 
 const HomePageWrapper = styled.div``;
 
@@ -86,43 +75,6 @@ const HomePage = () => {
         }
     }, []);
 
-    // const rows = products.map((element) => (
-    //   <Tr key={element._id}>
-    //     <Td style={{ textAlign: "center" }}>
-    //       <h4> {element.title}</h4>
-    //     </Td>
-    //     <Td style={{ textAlign: "center" }}>
-    //       {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={element.image?.toString()}></img> */}
-
-    //       <Image src={element.image!.toString()} height={60} width={60} objectFit="contain"></Image>
-    //       {/* <img style={{ width: "100px", height: "80px", objectFit: "cover" }} alt="CUONG" src={`data:image/jpeg;base64,${element?.image}`}></img> */}
-    //     </Td>
-
-    //     <Td style={{ textAlign: "center" }}>
-    //       <span>{element.price}</span>
-    //     </Td>
-    //     <Td style={{ textAlign: "center" }}>
-    //       <GroupButton>
-    //         <Link href={`/product/${element._id}`}>
-    //           <Button size={"xs"} color={"info"}>
-    //             Chỉnh Sửa
-    //           </Button>
-    //         </Link>
-
-    //         <Button
-    //           size={"xs"}
-    //           color={"red"}
-    //           onClick={() => {
-    //             setSelectProduct(element._id);
-    //             setDialogDelete(true);
-    //           }}
-    //         >
-    //           Xóa
-    //         </Button>
-    //       </GroupButton>
-    //     </Td>
-    //   </Tr>
-    // ));
     const excuteAction = () => {
         setLoading(true);
     };
@@ -206,18 +158,6 @@ const HomePage = () => {
                             </ActionIcon>
                         }
                     />
-
-                    <Button
-                        size={"sm"}
-                        color={"teal"}
-                        component={"a"}
-                        href={"/crawler"}
-                        // onClick={() => {
-                        //     CrawlerAPI_SHOPEE.getProductByID("ASDADASDS");
-                        // }}
-                    >
-                        Crawler
-                    </Button>
 
                     <AddButton>
                         <Link href="/product/create">

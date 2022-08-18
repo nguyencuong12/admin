@@ -28,5 +28,5 @@ export default interface ShopeeInf {
   discount: string;
   attributes: [attributesInterface];
   tag: string[];
-  
+  affilate:string;
 }
