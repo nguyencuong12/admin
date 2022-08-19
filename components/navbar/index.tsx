@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { ActionIcon, Burger } from "@mantine/core";
+import { ActionIcon, Burger, TextInput } from "@mantine/core";
 import { AiOutlineSearch, AiOutlineLogout } from "react-icons/ai";
 import { useAppSelector, useAppDispatch } from "../../store/hook";
 import { changeMenu, setCloseMenu } from "../../store/slices/menu";
 import Link from "next/link";
 import SweetAlert2 from "../../utils/sweetAlert";
 import { useRouter } from "next/router";
+import CrawlerAPI_SHOPEE from "../../api/crawler";
 interface propsMenu {
     open: boolean;
 }
@@ -105,6 +106,7 @@ const NavbarMenuItem = styled.li`
 const NavbarComponent = () => {
     const dispatch = useAppDispatch();
     const menuState = useAppSelector((state) => state.menu.open);
+    const [search, setSearch] = useState("");
     const router = useRouter();
 
     const clickBurger = () => {
@@ -141,6 +143,22 @@ const NavbarComponent = () => {
                         <Link href="/shopee">
                             <a>Shopee Affilate</a>
                         </Link>
+                    </NavbarMenuItem>
+                    <NavbarMenuItem>
+                        <TextInput
+                            placeholder="Search"
+                            onKeyDown={async (event) => {
+                                if (event.keyCode === 13) {
+                                    let response = await CrawlerAPI_SHOPEE.searchProductInShopee(
+                                        search
+                                    );
+                                    console.log("RESPONSE", response);
+                                }
+                            }}
+                            onChange={(event) => {
+                                setSearch(event.target.value);
+                            }}
+                        />
                     </NavbarMenuItem>
                 </NavbarMenu>
 

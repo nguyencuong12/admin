@@ -6,7 +6,7 @@ import { Group, Button } from "@mantine/core";
 import { FaTrash, FaPen } from "react-icons/fa";
 import Link from "next/link";
 import SweetAlert2 from "../../../utils/sweetAlert";
-
+import { useRouter } from "next/router";
 const TableWrapper = styled.table`
     width: 100%;
     border-collapse: collapse;
@@ -72,8 +72,12 @@ interface propsType {
 }
 const ShopeeTableComponent = (props: propsType) => {
     const { products } = props;
+    const router = useRouter();
+
     const onHandleDeleteItem = (id: string) => {
-        SweetAlert2.deleteConfirm(id);
+        SweetAlert2.deleteConfirm(id, () => {
+            router.push("/shopee/products");
+        });
     };
     const renderRow = (products: any[]) => {
         return products.map((instance) => {
@@ -99,9 +103,9 @@ const ShopeeTableComponent = (props: propsType) => {
                                 variant="outline"
                                 color={"red"}
                                 leftIcon={<FaTrash></FaTrash>}
-                                // onClick={() => {
-                                //     onHandleDeleteItem(instance._id!);
-                                // }}
+                                onClick={() => {
+                                    onHandleDeleteItem(instance.itemid!);
+                                }}
                             >
                                 Xóa
                             </Button>

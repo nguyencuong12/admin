@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import { ProductAPI } from "../api";
+import CrawlerAPI_SHOPEE from "../api/crawler";
   
 const SweetAlert2 = {
   loginSuccess: () => {
@@ -53,7 +54,7 @@ const SweetAlert2 = {
 
     });
   },
-  createSuccess: () => {
+  createSuccess: (callback:Function) => {
     Swal.fire({
       position: "top-end",
       icon: "success",
@@ -61,10 +62,10 @@ const SweetAlert2 = {
       showConfirmButton: false,
       timer: 1000,
     }).then((result) => {
-      window.location.href = "/";
+     callback();
     });
   },
-  deleteConfirm: (id: string) => {
+  deleteConfirm: (id: string,callback:Function) => {
     Swal.fire({
       title: "Bạn có muốn xóa sản phẩm này ?",
       icon: "question",
@@ -73,15 +74,11 @@ const SweetAlert2 = {
     }).then(async (result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        let response = await ProductAPI.deleteProduct(id);
+        let response = await CrawlerAPI_SHOPEE.deleteProductByID(id);
         if (response) {
           Swal.fire("Đã xóa sản phẩm !", "", "success");
-          window.location.href = "/";
+          callback();
         }
-
-        // localStorage.clear();
-        // window.location.href = "/login";
-        // Swal.fire("Saved!", "", "success");
       } else if (result.dismiss) {
         // Swal.fire("Changes are not saved", "", "info");
       }

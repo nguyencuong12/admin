@@ -14,10 +14,7 @@ const ProductShopee = () => {
     };
 
     return (
-        <div>
-            Product Shopee
-            {products && <ShopeeTableComponent products={products}></ShopeeTableComponent>}
-        </div>
+        <div>{products && <ShopeeTableComponent products={products}></ShopeeTableComponent>}</div>
     );
 };
 

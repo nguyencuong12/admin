@@ -3,12 +3,15 @@ import { Group, Input, Button, Container, TextInput, Textarea, Select } from "@m
 import styled from "styled-components";
 import { Search } from "tabler-icons-react";
 import CrawlerAPI_SHOPEE from "../../../api/crawler";
+import SweetAlert2 from "../../../utils/sweetAlert";
+import { useRouter } from "next/router";
 const Wrapper = styled.div``;
 const ShopeeCreate = () => {
     const [url, setUrl] = useState("");
     const [product, setProduct] = useState<any>();
     const [data, setData] = useState([{ value: "sadasdasda", label: "adsadasdas" }]);
     const [tag, setTag] = useState<string[]>([]);
+    const router = useRouter();
 
     const handleParseUrl = async () => {
         const ShopeeAPI = (await import("../../../api/crawler")).default;
@@ -35,9 +38,12 @@ const ShopeeCreate = () => {
                 affilate: url,
                 tag: tag,
             };
-
             let response = await ShopeeAPI.createProductByShopee(shopeeProduct);
-            console.log("response shopee create", response);
+            if (response) {
+                SweetAlert2.createSuccess(() => {
+                    router.push("/shopee/products");
+                });
+            }
         }
     };
 
@@ -68,17 +74,17 @@ const ShopeeCreate = () => {
                 <br />
                 <TextInput
                     readOnly
+                    value={product ? product.price : ""}
                     placeholder="Price"
                     label="Price"
-                    value={product ? product.price : ""}
                     required
                 />
                 <br />
                 <Select
+                    readOnly
                     label="Categories"
                     placeholder="Pick one"
                     // data={[
-
                     data={data}
                 />
                 <br />
@@ -143,7 +149,6 @@ const ShopeeCreate = () => {
                     placeholder="Affilate Link"
                     label="Affilate Link"
                     value={url}
-                    // value={productShopee ? productShopee.title : ""}
                     required
                 />
                 <br />
