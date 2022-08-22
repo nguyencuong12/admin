@@ -1,15 +1,46 @@
 import React, { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-import { Group, Input, Button, Container, TextInput, Textarea, Select } from "@mantine/core";
+import {
+    Group,
+    Input,
+    Button,
+    Container,
+    TextInput,
+    Textarea,
+    Select,
+    Collapse,
+    Badge,
+    List,
+    ActionIcon,
+} from "@mantine/core";
 import styled from "styled-components";
 import { Search } from "tabler-icons-react";
 import CrawlerAPI_SHOPEE from "../../../api/crawler";
 import { useRouter } from "next/router";
 import SweetAlert2 from "../../../utils/sweetAlert";
+import { FaPlus, FaWindowClose } from "react-icons/fa";
 
 const Wrapper = styled.div``;
+const BadgeWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 0px;
+`;
+interface propsCategoriesInput {
+    open: boolean;
+}
+const CategoriesInput = styled(TextInput)<propsCategoriesInput>`
+    display: ${(props) => (props.open ? "block" : "none")};
+`;
+
 const ShopeeProduct = () => {
     const [product, setProduct] = useState<any>();
+    const [openCategories, setOpencategories] = useState<boolean>(false);
+    const [openTextCategories, setOpenTextCategories] = useState<boolean>(false);
+    const [textCategories, setTextCategories] = useState("");
     const router = useRouter();
 
     const { id } = router.query;
@@ -20,13 +51,12 @@ const ShopeeProduct = () => {
     }, [id]);
     const fetchProductByItemID = async () => {
         let response = await CrawlerAPI_SHOPEE.fetchProductFromItemID(id);
+
         setProduct(response.data.product);
         // setProduct(response.data.product);
     };
     const onHandleUpdateProduct = async () => {
-        console.log("CALL UPDATE !!!", product);
         let response = await CrawlerAPI_SHOPEE.updateProductByShopee(product);
-        console.log("response update", response);
         if (response) {
             SweetAlert2.updateSuccess(() => {
                 router.push("/shopee/products");
@@ -57,11 +87,63 @@ const ShopeeProduct = () => {
                     required
                 />
                 <br />
-                <Select
-                    label="Categories"
-                    placeholder="Pick one"
-                    // data={[
-                    data={[]}
+                <Button
+                    onClick={() => {
+                        setOpencategories(!openCategories);
+                    }}
+                >
+                    Categories
+                </Button>
+                <Collapse in={openCategories}>
+                    <BadgeWrapper>
+                        {product &&
+                            product.categories.map((category: any) => {
+                                return <Badge key={category.catid}>{category.display_name}</Badge>;
+                            })}
+                    </BadgeWrapper>
+                    <ActionIcon
+                        variant="default"
+                        size="md"
+                        onClick={() => {
+                            setOpenTextCategories(!openTextCategories);
+                        }}
+                    >
+                        <FaPlus size={12} />
+                    </ActionIcon>
+                </Collapse>
+                <CategoriesInput
+                    open={openTextCategories}
+                    placeholder="Thêm danh mục"
+                    label="Thêm danh mục"
+                    onChange={(event) => {
+                        setTextCategories(event.target.value);
+                    }}
+                    onKeyDown={(event) => {
+                        if (event.keyCode === 13) {
+                            let objectCategoriesAdd = {
+                                catid: uuidv4(),
+                                display_name: textCategories,
+                                no_sub: false,
+                                is_default_subcat: false,
+                            };
+                            setProduct({
+                                ...product,
+                                categories: [...product.categories, objectCategoriesAdd],
+                            });
+                        }
+                    }}
+                    // style={{ display: "none" }}
+                    rightSection={
+                        <ActionIcon
+                            variant="default"
+                            size="md"
+                            onClick={() => {
+                                setOpenTextCategories(!openTextCategories);
+                            }}
+                        >
+                            <FaWindowClose size={12} />
+                        </ActionIcon>
+                    }
                 />
                 <br />
                 <Textarea
