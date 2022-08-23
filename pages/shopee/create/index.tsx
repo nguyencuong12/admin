@@ -41,7 +41,7 @@ const ShopeeCreate = () => {
             let response = await ShopeeAPI.createProductByShopee(shopeeProduct);
             if (response) {
                 SweetAlert2.createSuccess(() => {
-                    router.push("/shopee/products");
+                    // router.push("/shopee/products");
                 });
             }
         }

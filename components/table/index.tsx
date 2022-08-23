@@ -72,7 +72,7 @@ interface propsType {
 const TableComponent = (props: propsType) => {
     const { products } = props;
     const onHandleDeleteItem = (id: string) => {
-        SweetAlert2.deleteConfirm(id);
+        SweetAlert2.deleteConfirm(id, () => {});
     };
     const renderRow = (products: ProductUpdateInf[]) => {
         return products.map((instance) => {
