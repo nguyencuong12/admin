@@ -19,7 +19,7 @@ import { Search } from "tabler-icons-react";
 import CrawlerAPI_SHOPEE from "../../../api/crawler";
 import { useRouter } from "next/router";
 import SweetAlert2 from "../../../utils/sweetAlert";
-import { FaPlus, FaWindowClose } from "react-icons/fa";
+import { FaPlus, FaRegWindowClose, FaWindowClose } from "react-icons/fa";
 
 const Wrapper = styled.div``;
 const BadgeWrapper = styled.div`
@@ -35,6 +35,13 @@ interface propsCategoriesInput {
 const CategoriesInput = styled(TextInput)<propsCategoriesInput>`
     display: ${(props) => (props.open ? "block" : "none")};
 `;
+const CategoryItem = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0px;
+    border-bottom: 1px solid black;
+`;
 
 const ShopeeProduct = () => {
     const [product, setProduct] = useState<any>();
@@ -49,9 +56,13 @@ const ShopeeProduct = () => {
             fetchProductByItemID();
         }
     }, [id]);
+    useEffect(() => {
+        if (product) {
+            console.log("PRODUCT CHANGE", product);
+        }
+    }, []);
     const fetchProductByItemID = async () => {
         let response = await CrawlerAPI_SHOPEE.fetchProductFromItemID(id);
-
         setProduct(response.data.product);
         // setProduct(response.data.product);
     };
@@ -62,6 +73,27 @@ const ShopeeProduct = () => {
                 router.push("/shopee/products");
             });
         }
+    };
+    const onDeleteCategoryItem = async (catid: string) => {
+        product.categories.map((category: any, index: any) => {
+            if (category.catid == catid) {
+                product.categories.splice(index, 1);
+            }
+        });
+        setProduct({
+            ...product,
+        });
+
+        // let objectCategoriesAdd = {
+        //     catid: uuidv4(),
+        //     display_name: textCategories,
+        //     no_sub: false,
+        //     is_default_subcat: false,
+        // };
+        // setProduct({
+        //     ...product,
+        //     categories: [...product.categories, objectCategoriesAdd],
+        // });
     };
     return (
         <Wrapper>
@@ -98,7 +130,20 @@ const ShopeeProduct = () => {
                     <BadgeWrapper>
                         {product &&
                             product.categories.map((category: any) => {
-                                return <Badge key={category.catid}>{category.display_name}</Badge>;
+                                return (
+                                    <CategoryItem key={category.catid}>
+                                        <Badge>{category.display_name}</Badge>
+                                        <ActionIcon
+                                            variant="default"
+                                            size="md"
+                                            onClick={() => {
+                                                onDeleteCategoryItem(category.catid);
+                                            }}
+                                        >
+                                            <FaRegWindowClose size={12} />
+                                        </ActionIcon>
+                                    </CategoryItem>
+                                );
                             })}
                     </BadgeWrapper>
                     <ActionIcon

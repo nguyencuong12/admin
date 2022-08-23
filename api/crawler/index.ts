@@ -28,10 +28,13 @@ const CrawlerAPI_SHOPEE = {
       data:product
     })
   },
-  fetchAllProductInShopee:()=>{
+  fetchAllProductInShopee:(page:number)=>{
     return axios({
       url: '/shopee',
       method: 'GET',
+      params:{
+        page:page
+      }
     });
   },
   deleteProductByID:(id:string)=>{

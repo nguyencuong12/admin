@@ -176,7 +176,6 @@ const HomePage = () => {
                 <TableComponent products={products}></TableComponent>
                 <PaginationWrapper>
                     <Pagination
-                        // Math.ceil(total_items/limit);
                         total={Math.ceil(totalPage / 4)}
                         color="cyan"
                         page={activePage}
