@@ -5,13 +5,14 @@ import { Search } from "tabler-icons-react";
 import CrawlerAPI_SHOPEE from "../../../api/crawler";
 import SweetAlert2 from "../../../utils/sweetAlert";
 import { useRouter } from "next/router";
+import { v4 as uuidv4 } from "uuid";
+
 const Wrapper = styled.div``;
 const ShopeeCreate = () => {
     const [url, setUrl] = useState("");
     const [product, setProduct] = useState<any>();
-    const [data, setData] = useState([{ value: "sadasdasda", label: "adsadasdas" }]);
     const [tag, setTag] = useState<string[]>([]);
-    const router = useRouter();
+    const [categories, setCategories] = useState<any>();
 
     const handleParseUrl = async () => {
         const ShopeeAPI = (await import("../../../api/crawler")).default;
@@ -31,7 +32,7 @@ const ShopeeCreate = () => {
                 images: product.images,
                 stock: product.stock,
                 price: product.price,
-                categories: product.categories,
+                categories: [...product.categories, categories],
                 brand: product.brand,
                 discount: product.discount,
                 attributes: product.attributes,
@@ -80,12 +81,20 @@ const ShopeeCreate = () => {
                     required
                 />
                 <br />
-                <Select
-                    readOnly
+                <TextInput
+                    // value={product ? product.categories : ""}
+                    placeholder="Categories"
                     label="Categories"
-                    placeholder="Pick one"
-                    // data={[
-                    data={data}
+                    required
+                    onChange={(event) => {
+                        let newCategories = {
+                            catid: uuidv4(),
+                            display_name: event.target.value,
+                            no_sub: false,
+                            is_default_subcat: false,
+                        };
+                        setCategories(newCategories);
+                    }}
                 />
                 <br />
                 <Textarea

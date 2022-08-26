@@ -167,7 +167,6 @@ const ShopeeTableComponent = () => {
                 <Pagination
                     total={Math.ceil(total / 4)}
                     onChange={async (page: number) => {
-                        console.log("PAGE CHANGE", page);
                         await fetchAllProduct(page);
                     }}
                 />
