@@ -13,6 +13,7 @@ import {
     Badge,
     List,
     ActionIcon,
+    MultiSelect,
 } from "@mantine/core";
 import styled from "styled-components";
 import { Search } from "tabler-icons-react";
@@ -43,11 +44,16 @@ const CategoryItem = styled.div`
     border-bottom: 1px solid black;
 `;
 
+const data = [
+    { value: "Sản phẩm cho chó", label: "Sản phẩm cho chó" },
+    { value: "Sản phẩm cho mèo", label: "Sản phẩm cho mèo" },
+];
 const ShopeeProduct = () => {
     const [product, setProduct] = useState<any>();
     const [openCategories, setOpencategories] = useState<boolean>(false);
     const [openTextCategories, setOpenTextCategories] = useState<boolean>(false);
     const [textCategories, setTextCategories] = useState("");
+    const [categoriesPicker, setCategoriesPicker] = useState<any>();
     const router = useRouter();
 
     const { id } = router.query;
@@ -57,12 +63,23 @@ const ShopeeProduct = () => {
         }
     }, [id]);
     useEffect(() => {
-        if (product) {
-            console.log("PRODUCT CHANGE", product);
+        if (categoriesPicker) {
+            let objectCategoriesAdd = {
+                catid: uuidv4(),
+                display_name: categoriesPicker.toString(),
+                no_sub: false,
+                is_default_subcat: false,
+            };
+            setProduct({
+                ...product,
+                categories: [...product.categories, objectCategoriesAdd],
+            });
         }
-    }, []);
+    }, [categoriesPicker]);
+
     const fetchProductByItemID = async () => {
         let response = await CrawlerAPI_SHOPEE.fetchProductFromItemID(id);
+        console.log("RESPONSE ID", response);
         setProduct(response.data.product);
         // setProduct(response.data.product);
     };
@@ -83,17 +100,6 @@ const ShopeeProduct = () => {
         setProduct({
             ...product,
         });
-
-        // let objectCategoriesAdd = {
-        //     catid: uuidv4(),
-        //     display_name: textCategories,
-        //     no_sub: false,
-        //     is_default_subcat: false,
-        // };
-        // setProduct({
-        //     ...product,
-        //     categories: [...product.categories, objectCategoriesAdd],
-        // });
     };
     return (
         <Wrapper>
@@ -126,23 +132,37 @@ const ShopeeProduct = () => {
                 >
                     Categories
                 </Button>
+                <br />
+
+                <Select
+                    data={data}
+                    label="Chọn chuyên mục cho thú cưng"
+                    placeholder="Chọn chuyên mục cho thú cưng"
+                    onChange={(value) => {
+                        setCategoriesPicker(value);
+                    }}
+                />
+
                 <Collapse in={openCategories}>
                     <BadgeWrapper>
                         {product &&
                             product.categories.map((category: any) => {
                                 return (
-                                    <CategoryItem key={category.catid}>
-                                        <Badge>{category.display_name}</Badge>
-                                        <ActionIcon
-                                            variant="default"
-                                            size="md"
-                                            onClick={() => {
-                                                onDeleteCategoryItem(category.catid);
-                                            }}
-                                        >
-                                            <FaRegWindowClose size={12} />
-                                        </ActionIcon>
-                                    </CategoryItem>
+                                    category && (
+                                        <CategoryItem key={category.catid}>
+                                            {/* {category && } */}
+                                            <Badge>{category.display_name}</Badge>
+                                            <ActionIcon
+                                                variant="default"
+                                                size="md"
+                                                onClick={() => {
+                                                    onDeleteCategoryItem(category.catid);
+                                                }}
+                                            >
+                                                <FaRegWindowClose size={12} />
+                                            </ActionIcon>
+                                        </CategoryItem>
+                                    )
                                 );
                             })}
                     </BadgeWrapper>
@@ -222,7 +242,6 @@ const ShopeeProduct = () => {
                     }}
                     required
                 />
-
                 <br />
                 <TextInput
                     placeholder="Số lượng có trong kho"
@@ -257,7 +276,6 @@ const ShopeeProduct = () => {
                     maxRows={4}
                 />
                 <br />
-
                 <TextInput
                     placeholder="Affilate Link"
                     label="Affilate Link"

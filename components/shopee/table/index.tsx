@@ -14,6 +14,8 @@ const SearchWrapper = styled.div`
     max-width: 300px;
     margin: 10px 0px;
 `;
+const ButtonUpdate = styled.a``;
+
 const TableWrapper = styled.table`
     width: 100%;
     border-collapse: collapse;
@@ -111,9 +113,13 @@ const ShopeeTableComponent = () => {
                     <td data-label="Thao Tác">
                         <Group position="right" direction="row" noWrap>
                             <Link href={`product/${instance.itemid}`}>
-                                <Button size={"xs"} variant="outline" leftIcon={<FaPen></FaPen>}>
+                                <a style={{ padding: "5px 10px", border: "1px solid red" }}>
+                                    Chỉnh sửa
+                                </a>
+
+                                {/* <Button size={"xs"} variant="outline" leftIcon={<FaPen></FaPen>}>
                                     Chỉnh Sửa
-                                </Button>
+                                </Button> */}
                             </Link>
                             <Button
                                 size={"xs"}
