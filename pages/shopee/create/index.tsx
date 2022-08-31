@@ -340,10 +340,16 @@ const ShopeeCreate = () => {
                 </Stepper>
 
                 <Group position="center" mt="xl">
-                    <Button variant="default" onClick={prevStep}>
+                    <Button
+                        variant="default"
+                        onClick={prevStep}
+                        disabled={active == 0 || !product ? true : false}
+                    >
                         Quay lại
                     </Button>
-                    <Button onClick={nextStep}>Tiếp tục</Button>
+                    <Button onClick={nextStep} disabled={!product}>
+                        Tiếp tục
+                    </Button>
                 </Group>
             </Container>
         </Wrapper>
