@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mantine/core": "^4.0.4",
+    "@emotion/react": "^11.10.4",
+    "@emotion/server": "^11.10.0",
+    "@mantine/core": "^5.2.4",
     "@mantine/dropzone": "^4.0.4",
     "@mantine/form": "^4.2.1",
-    "@mantine/hooks": "^4.0.4",
-    "@mantine/next": "^4.0.4",
+    "@mantine/hooks": "^5.2.4",
+    "@mantine/next": "^5.2.4",
     "@reduxjs/toolkit": "^1.8.0",
     "axios": "^0.26.1",
     "next": "12.1.0",

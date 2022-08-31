@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  swcMinify:false,
   reactStrictMode: true,
   compiler: {
     // ssr and displayName are configured by default
