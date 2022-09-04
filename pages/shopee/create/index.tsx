@@ -325,7 +325,7 @@ const ShopeeCreate = () => {
                         allowStepSelect={active > 2}
                     >
                         <Button
-                            size={"lg"}
+                            size={"sm"}
                             fullWidth
                             onClick={() => {
                                 onCreateProductShopee();
