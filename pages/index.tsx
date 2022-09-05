@@ -56,33 +56,45 @@ const HomePage = () => {
     //   _id: string;
     // }
     // ********* HOOK ***********
-    const router = useRouter();
 
     const [products, setProducts] = useState<ProductUpdateInf[] | []>([]);
-    const [activePage, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [totalPage, setTotalPage] = useState(1);
     const [dialogDelete, setDialogDelete] = useState(false);
     const [selectProduct, setSelectProduct] = useState<string>();
     const [searchField, setSearchField] = useState("");
-
+    const [activePage, setPage] = useState<number>(1);
+    const router = useRouter();
     // ********* HOOK ***********
+
     useEffect(() => {
+        const getProductInResponse = async () => {
+            let response = await ProductAPI.getAllProduct(activePage);
+            console.log("response ", response);
+            return response.data.products._productList;
+        };
+        const fetchAllProduct = async () => {
+            excuteAction();
+            let products = await getProductInResponse();
+
+            let totalAmountProducts = await getPageTotal();
+            await Promise.all([products, totalAmountProducts]).then(() => {
+                saveProductInState(products);
+                setTotalPage(totalAmountProducts);
+                setLoading(false);
+            });
+        };
         if (!localStorage.getItem("access_token")) {
             router.push("/login");
         } else {
             fetchAllProduct();
         }
-    }, []);
+    }, [activePage, router]);
 
     const excuteAction = () => {
         setLoading(true);
     };
-    const getProductInResponse = async () => {
-        let response = await ProductAPI.getAllProduct(activePage);
-        console.log("response ", response);
-        return response.data.products._productList;
-    };
+
     const saveProductInState = async (products: [ProductUpdateInf]) => {
         console.log("products", products);
         setProducts(products);
@@ -92,16 +104,7 @@ const HomePage = () => {
         let response = await ProductAPI.getTotalAmountProduct();
         return response.data.total;
     }
-    const fetchAllProduct = async () => {
-        excuteAction();
-        let products = await getProductInResponse();
-        let totalAmountProducts = await getPageTotal();
-        await Promise.all([products, totalAmountProducts]).then(() => {
-            saveProductInState(products);
-            setTotalPage(totalAmountProducts);
-            setLoading(false);
-        });
-    };
+
     const onDeleteCallback = async (deleteStatus: boolean) => {
         if (deleteStatus) {
             console.log("select", selectProduct);
@@ -112,9 +115,10 @@ const HomePage = () => {
                     content: "Delete Success",
                     icon: "success",
                 };
-                fetchAllProduct();
+
                 setSelectProduct("");
                 await alertMessage(objectAlert);
+                router.push("/shopee/products");
             }
         }
         setDialogDelete(false);
@@ -160,7 +164,7 @@ const HomePage = () => {
                     />
 
                     <AddButton>
-                        <Link href="/product/create">
+                        <Link href="/product/create" passHref={true}>
                             <Button
                                 size={"sm"}
                                 color={"teal"}

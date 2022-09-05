@@ -28,7 +28,7 @@ const LoginPage = () => {
         if (localStorage.getItem("access_token")) {
             router.push("/");
         }
-    }, []);
+    }, [router]);
     const [formData, setFormData] = useState({});
 
     const onChangeForm = (e: any, type: string) => {

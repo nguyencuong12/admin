@@ -101,17 +101,20 @@ const ShopeeTableComponent = () => {
                 <tr key={instance.itemid}>
                     <td data-label="Sản Phẩm">{instance.title}</td>
                     <td data-label="Hình Ảnh">
-                        <img
-                            style={{ height: "80px" }}
+                        <Image
+                            alt="image-description"
                             src={`https://cf.shopee.vn/file/${instance.image}`}
-                        ></img>
+                            height={60}
+                            width={60}
+                            layout="responsive"
+                        ></Image>
                     </td>
                     <td data-label="Giá Tiền">
                         {formatPrice(instance.price)}
                         {/* {instance.price} */}
                     </td>
                     <td data-label="Thao Tác">
-                        <Group position="right" direction="row" noWrap>
+                        <Group position="right" noWrap>
                             <Link href={`product/${instance.itemid}`}>
                                 <a style={{ padding: "5px 10px", border: "1px solid red" }}>
                                     Chỉnh sửa

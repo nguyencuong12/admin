@@ -86,15 +86,18 @@ const TableComponent = (props: propsType) => {
                             width={80}
                             objectFit={"contain"}
                         ></Image> */}
-                        <img
-                            style={{ height: "80px" }}
+                        <Image
+                            height={60}
+                            width={60}
+                            layout="responsive"
+                            alt="image"
                             src={instance.image! && instance.image[0].path.toString()!}
-                        ></img>
+                        ></Image>
                     </td>
                     <td data-label="Giá Tiền">{instance.price}</td>
                     <td data-label="Thao Tác">
-                        <Group position="right" direction="row" noWrap>
-                            <Link href={`product/${instance._id}`}>
+                        <Group position="right" noWrap>
+                            <Link href={`product/${instance._id}`} passHref={true}>
                                 <Button size={"xs"} variant="outline" leftIcon={<FaPen></FaPen>}>
                                     Chỉnh Sửa
                                 </Button>
