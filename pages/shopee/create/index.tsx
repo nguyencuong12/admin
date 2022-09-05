@@ -10,12 +10,13 @@ import {
     Stepper,
     Grid,
     NavLink,
+    MultiSelect,
 } from "@mantine/core";
 import styled from "styled-components";
 import { Search, ArrowLeft, ArrowDown, ArrowRight } from "tabler-icons-react";
 import CrawlerAPI_SHOPEE from "../../../api/crawler";
 import SweetAlert2 from "../../../utils/sweetAlert";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import { v4 as uuidv4 } from "uuid";
 
 const Wrapper = styled.div``;
@@ -31,12 +32,40 @@ const ShopeeCreate = () => {
     const [product, setProduct] = useState<any>();
     const [tag, setTag] = useState<string[]>([]);
     const [categories, setCategories] = useState<any>([]);
-    const [subCategory1, setSubCategory1] = useState<string[]>([]);
-    const [active1, setActive1] = useState<any>();
-    const [active2, setActive2] = useState<any>();
-    const data1 = [
-        { icon: "", label: "Sản phẩm cho mèo" },
-        { icon: "", label: "Sản phẩm cho chó" },
+    const [cat, setCat] = useState<any[]>([]);
+    const [dog, setDog] = useState<any[]>([]);
+
+    const categoriesForCat = [
+        { value: "Sản phẩm cho mèo", label: "Sản phẩm cho mèo" },
+        { value: "Hạt cho mèo", label: "Hạt cho mèo" },
+        { value: "Súp thưởng cho mèo", label: "Súp thưởng cho mèo" },
+        { value: "Tã lót cho mèo", label: "Tã lót cho mèo" },
+        { value: "Khay vệ sinh cho mèo", label: "Khay vệ sinh cho mèo" },
+        { value: "Xịt khử mùi cho mèo", label: "Xịt khử mùi cho mèo" },
+        { value: "Pate cho mèo", label: "Pate cho mèo" },
+        { value: "Cát vệ sinh cho mèo", label: "Cát vệ sinh cho mèo" },
+        { value: "Balo cho mèo", label: "Balo cho mèo" },
+        { value: "Túi đeo cho mèo", label: "Túi đeo cho mèo" },
+        { value: "Gel dinh dưỡng cho mèo", label: "Gel dinh dưỡng cho mèo" },
+        { value: "Vòng cổ trị rận cho mèo", label: "Vòng cổ trị rận cho mèo" },
+        { value: "Vitamin cho mèo", label: "Vitamin cho mèo" },
+        { value: "Chuồng cho mèo", label: "Chuồng cho mèo" },
+    ];
+    const categoriesForDog = [
+        { value: "Sản phẩm cho chó", label: "Sản phẩm cho chó" },
+        { value: "Hạt cho chó", label: "Hạt cho chó" },
+        { value: "Súp thưởng cho chó", label: "Súp thưởng cho chó" },
+        { value: "Tã lót cho chó", label: "Tã lót cho chó" },
+        { value: "Khay vệ sinh cho chó", label: "Khay vệ sinh cho chó" },
+        { value: "Xịt khử mùi cho chó", label: "Xịt khử mùi cho chó" },
+        { value: "Pate cho chó", label: "Pate cho chó" },
+        { value: "Cát vệ sinh cho chó", label: "Cát vệ sinh cho chó" },
+        { value: "Balo cho chó", label: "Balo cho chó" },
+        { value: "Túi đeo cho chó", label: "Túi đeo cho chó" },
+        { value: "Gel dinh dưỡng cho chó", label: "Gel dinh dưỡng cho chó" },
+        { value: "Vòng cổ trị rận cho chó", label: "Vòng cổ trị rận cho chó" },
+        { value: "Vitamin cho chó", label: "Vitamin cho chó" },
+        { value: "Chuồng cho chó", label: "Chuồng cho chó" },
     ];
     const handleParseUrl = async () => {
         const ShopeeAPI = (await import("../../../api/crawler")).default;
@@ -48,11 +77,7 @@ const ShopeeCreate = () => {
             nextStep();
         }
     }, [product]);
-    useEffect(() => {
-        if (categories) {
-            console.log("CATE", categories);
-        }
-    }, [categories]);
+
     const onCreateProductShopee = async () => {
         const ShopeeAPI = (await import("../../../api/crawler")).default;
 
@@ -77,7 +102,8 @@ const ShopeeCreate = () => {
             let response = await ShopeeAPI.createProductByShopee(shopeeProduct);
             if (response) {
                 SweetAlert2.createSuccess(() => {
-                    // router.push("/shopee/products");
+                    // Router.push("/shopee/create");
+                    window.location.href = "/shopee/create";
                 });
             }
         }
@@ -114,111 +140,44 @@ const ShopeeCreate = () => {
                     >
                         <CategoriesWrapper gutter="lg">
                             <Grid.Col xl={6} style={{ border: "1px solid #ccc" }}>
-                                {data1.map((instance, index) => {
-                                    return (
-                                        <NavLink
-                                            key={index}
-                                            label={instance.label}
-                                            rightSection={<ArrowRight size={12}></ArrowRight>}
-                                            active={index == active1}
-                                            onClick={() => {
-                                                const checkExist = categories.find(
-                                                    (element: any) =>
-                                                        element.display_name === instance.label
-                                                );
-
-                                                switch (instance.label) {
-                                                    case "Sản phẩm cho mèo": {
-                                                        setSubCategory1([
-                                                            "Hạt cho mèo",
-                                                            "Pate cho mèo",
-                                                            "Súp thưởng cho mèo",
-                                                            "Tã lót cho mèo",
-                                                            "Khay vệ sinh cho mèo",
-                                                            "Xịt khử mùi cho mèo",
-                                                            "Cát vệ sinh cho mèo",
-                                                            "Balo cho mèo",
-                                                            "Túi đeo cho mèo",
-                                                            "Gel dinh dưỡng cho mèo",
-                                                            "Vòng cổ trị rận cho mèo",
-                                                            "Vitamin cho mèo",
-                                                            "Chuồng",
-                                                        ]);
-                                                        break;
-                                                    }
-                                                    case "Sản phẩm cho chó": {
-                                                        setSubCategory1([
-                                                            "Hạt cho chó",
-                                                            "Pate cho chó",
-                                                            "Tã lót cho chó",
-                                                            "Khay vệ sinh cho chó",
-                                                            "Xịt khử mùi cho chó",
-                                                            "Balo cho chó",
-                                                            "Túi đeo cho chó",
-                                                            "Gel dinh dưỡng cho chó",
-                                                            "Vòng cổ trị rận cho chó",
-                                                            "Vitamin cho chó",
-                                                            "Chuồng",
-                                                        ]);
-                                                        break;
-                                                    }
-                                                    default: {
-                                                        break;
-                                                    }
-                                                }
-                                                if (!checkExist) {
-                                                    let newCategories = {
-                                                        catid: uuidv4(),
-                                                        display_name: instance.label,
-                                                        no_sub: false,
-                                                        is_default_subcat: false,
-                                                    };
-                                                    product.categories = [
-                                                        ...product.categories,
-                                                        newCategories,
-                                                    ];
-                                                    setCategories([...categories, newCategories]);
-                                                }
-
-                                                setActive1(index);
-                                            }}
-                                        ></NavLink>
-                                    );
-                                })}
+                                <MultiSelect
+                                    data={categoriesForDog}
+                                    label="Chọn chuyên mục cho chó"
+                                    placeholder="Chọn chuyên mục"
+                                    onChange={(value) => {
+                                        let tempArrDog: any = [];
+                                        value.map((instance) => {
+                                            let newCategories = {
+                                                catid: uuidv4(),
+                                                display_name: instance,
+                                                no_sub: false,
+                                                is_default_subcat: false,
+                                            };
+                                            tempArrDog.push(newCategories);
+                                        });
+                                        setDog(tempArrDog);
+                                    }}
+                                />
                             </Grid.Col>
                             <Grid.Col xl={6} style={{ border: "1px solid #ccc" }}>
-                                {subCategory1.map((subItems, index) => {
-                                    return (
-                                        <NavLink
-                                            key={index}
-                                            label={subItems}
-                                            rightSection={<ArrowRight size={12}></ArrowRight>}
-                                            active={index == active2}
-                                            onClick={() => {
-                                                const checkExist = categories.find(
-                                                    (element: any) =>
-                                                        element.display_name === subItems
-                                                );
-
-                                                if (!checkExist) {
-                                                    let newCategories = {
-                                                        catid: uuidv4(),
-                                                        display_name: subItems,
-                                                        no_sub: false,
-                                                        is_default_subcat: false,
-                                                    };
-
-                                                    product.categories = [
-                                                        ...product.categories,
-                                                        newCategories,
-                                                    ];
-                                                    setCategories([...categories, newCategories]);
-                                                }
-                                                setActive2(index);
-                                            }}
-                                        ></NavLink>
-                                    );
-                                })}
+                                <MultiSelect
+                                    onChange={(value) => {
+                                        let tempArrCat: any = [];
+                                        value.map((instance) => {
+                                            let newCategories = {
+                                                catid: uuidv4(),
+                                                display_name: instance,
+                                                no_sub: false,
+                                                is_default_subcat: false,
+                                            };
+                                            tempArrCat.push(newCategories);
+                                        });
+                                        setCat(tempArrCat);
+                                    }}
+                                    data={categoriesForCat}
+                                    label="Chọn chuyên mục cho mèo"
+                                    placeholder="Chọn chuyên mục"
+                                />
                             </Grid.Col>
                         </CategoriesWrapper>
                         <br />
@@ -327,7 +286,8 @@ const ShopeeCreate = () => {
                         <Button
                             size={"sm"}
                             fullWidth
-                            onClick={() => {
+                            onClick={async () => {
+                                product.categories = [...product.categories, ...dog, ...cat];
                                 onCreateProductShopee();
                             }}
                         >
