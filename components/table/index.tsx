@@ -87,8 +87,9 @@ const TableComponent = (props: propsType) => {
                             objectFit={"contain"}
                         ></Image> */}
                         <Image
-                            height={60}
-                            width={60}
+                            height={10}
+                            width={50}
+                            objectFit={"contain"}
                             layout="responsive"
                             alt="image"
                             src={instance.image! && instance.image[0].path.toString()!}

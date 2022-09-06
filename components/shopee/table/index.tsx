@@ -104,8 +104,9 @@ const ShopeeTableComponent = () => {
                         <Image
                             alt="image-description"
                             src={`https://cf.shopee.vn/file/${instance.image}`}
-                            height={60}
+                            height={40}
                             width={60}
+                            objectFit={"contain"}
                             layout="responsive"
                         ></Image>
                     </td>
