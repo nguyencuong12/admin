@@ -31,7 +31,7 @@ const ShopeeCreate = () => {
     const [url, setUrl] = useState("");
     const [product, setProduct] = useState<any>();
     const [tag, setTag] = useState<string[]>([]);
-    const [categories, setCategories] = useState<any>([]);
+    const [categories, setCategories] = useState<any[]>([]);
     const [cat, setCat] = useState<any[]>([]);
     const [dog, setDog] = useState<any[]>([]);
 
@@ -80,7 +80,6 @@ const ShopeeCreate = () => {
 
     const onCreateProductShopee = async () => {
         const ShopeeAPI = (await import("../../../api/crawler")).default;
-
         if (product) {
             let shopeeProduct = {
                 itemid: product.itemid,
@@ -209,7 +208,7 @@ const ShopeeCreate = () => {
                                     no_sub: false,
                                     is_default_subcat: false,
                                 };
-                                setCategories(newCategories);
+                                setCategories([newCategories]);
                             }}
                         />
                         <br />
@@ -287,7 +286,7 @@ const ShopeeCreate = () => {
                             size={"sm"}
                             fullWidth
                             onClick={async () => {
-                                product.categories = [...product.categories, ...dog, ...cat];
+                                product.categories = [...product.categories,...categories, ...dog, ...cat];
                                 onCreateProductShopee();
                             }}
                         >
