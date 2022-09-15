@@ -34,6 +34,8 @@ const ShopeeCreate = () => {
     const [categories, setCategories] = useState<any[]>([]);
     const [cat, setCat] = useState<any[]>([]);
     const [dog, setDog] = useState<any[]>([]);
+    const [mayHutBui, setMayHutBui] = useState<any[]>([]);
+    const [robotHutBui, setRobotHutBui] = useState<any[]>([]);
 
     const categoriesForCat = [
         { value: "Sản phẩm cho mèo", label: "Sản phẩm cho mèo" },
@@ -67,6 +69,9 @@ const ShopeeCreate = () => {
         { value: "Vitamin cho chó", label: "Vitamin cho chó" },
         { value: "Chuồng cho chó", label: "Chuồng cho chó" },
     ];
+    const mayhutbui = [{ value: "Máy hút bụi", label: "Máy hút bụi" }];
+    const robothutbui = [{ value: "Robot hút bụi", label: "Robot hút bụi" }];
+
     const handleParseUrl = async () => {
         const ShopeeAPI = (await import("../../../api/crawler")).default;
         let response = await ShopeeAPI.getProductByURL(url);
@@ -138,7 +143,7 @@ const ShopeeCreate = () => {
                         allowStepSelect={active > 1}
                     >
                         <CategoriesWrapper gutter="lg">
-                            <Grid.Col xl={6} style={{ border: "1px solid #ccc" }}>
+                            <Grid.Col xl={4} style={{ border: "1px solid #ccc" }}>
                                 <MultiSelect
                                     data={categoriesForDog}
                                     label="Chọn chuyên mục cho chó"
@@ -158,7 +163,7 @@ const ShopeeCreate = () => {
                                     }}
                                 />
                             </Grid.Col>
-                            <Grid.Col xl={6} style={{ border: "1px solid #ccc" }}>
+                            <Grid.Col xl={4} style={{ border: "1px solid #ccc" }}>
                                 <MultiSelect
                                     onChange={(value) => {
                                         let tempArrCat: any = [];
@@ -175,6 +180,48 @@ const ShopeeCreate = () => {
                                     }}
                                     data={categoriesForCat}
                                     label="Chọn chuyên mục cho mèo"
+                                    placeholder="Chọn chuyên mục"
+                                />
+                            </Grid.Col>
+
+                            <Grid.Col xl={4} style={{ border: "1px solid #ccc" }}>
+                                <MultiSelect
+                                    onChange={(value) => {
+                                        let tempArrCat: any = [];
+                                        value.map((instance) => {
+                                            let newCategories = {
+                                                catid: uuidv4(),
+                                                display_name: instance,
+                                                no_sub: false,
+                                                is_default_subcat: false,
+                                            };
+                                            tempArrCat.push(newCategories);
+                                        });
+                                        setMayHutBui(tempArrCat);
+                                    }}
+                                    data={mayhutbui}
+                                    label="Chọn chuyên mục cho máy hút bụi"
+                                    placeholder="Chọn chuyên mục"
+                                />
+                            </Grid.Col>
+
+                            <Grid.Col xl={4} style={{ border: "1px solid #ccc" }}>
+                                <MultiSelect
+                                    onChange={(value) => {
+                                        let tempArrCat: any = [];
+                                        value.map((instance) => {
+                                            let newCategories = {
+                                                catid: uuidv4(),
+                                                display_name: instance,
+                                                no_sub: false,
+                                                is_default_subcat: false,
+                                            };
+                                            tempArrCat.push(newCategories);
+                                        });
+                                        setRobotHutBui(tempArrCat);
+                                    }}
+                                    data={robothutbui}
+                                    label="Chọn chuyên mục cho robot hút bụi"
                                     placeholder="Chọn chuyên mục"
                                 />
                             </Grid.Col>
@@ -286,7 +333,14 @@ const ShopeeCreate = () => {
                             size={"sm"}
                             fullWidth
                             onClick={async () => {
-                                product.categories = [...product.categories,...categories, ...dog, ...cat];
+                                product.categories = [
+                                    ...product.categories,
+                                    ...categories,
+                                    ...dog,
+                                    ...cat,
+                                    ...mayHutBui,
+                                    ...robotHutBui,
+                                ];
                                 onCreateProductShopee();
                             }}
                         >
@@ -309,6 +363,7 @@ const ShopeeCreate = () => {
                     <Button onClick={nextStep} disabled={!product}>
                         Tiếp tục
                     </Button>
+                    {/* <Button onClick={nextStep}>Tiếp tục</Button> */}
                 </Group>
             </Container>
         </Wrapper>
