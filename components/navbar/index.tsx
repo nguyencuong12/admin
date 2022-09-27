@@ -144,6 +144,12 @@ const NavbarComponent = () => {
                             <a>Shopee Affilate</a>
                         </Link>
                     </NavbarMenuItem>
+                    <NavbarMenuItem>
+                        <Link href="/tiki">
+                            <a>Tiki Affilate</a>
+                        </Link>
+                    </NavbarMenuItem>
+
                 </NavbarMenu>
 
                 <NavbarControl>
