@@ -12,7 +12,7 @@ const nextConfig = {
   env: {
     // HOST_API: "https://api.sashimeomeo.com",
     // HOST_API: "http://api.sashimeomeo.com",
-    HOST_API: "https://api.sashimeomeo.com",
+    HOST_API: "http://localhost:5000",
   },
 };
 
