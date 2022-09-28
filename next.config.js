@@ -7,7 +7,7 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ["http://api.sashimeomeo.com", "localhost", "api.sashimeomeo.com","cf.shopee.vn"],
+    domains: ["http://api.sashimeomeo.com", "localhost", "api.sashimeomeo.com","cf.shopee.vn","https://salt.tikicdn.com"],
   },
   env: {
     // HOST_API: "https://api.sashimeomeo.com",

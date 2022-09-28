@@ -58,7 +58,7 @@ const ShopeeAffilate = () => {
                 </Grid.Col>
                 <Grid.Col md={6}>
                     <ShopeeProducts
-                        onClick={() => onHandleNavigatePage("/shopee/products")}
+                        onClick={() => onHandleNavigatePage("/tiki/list")}
                     ></ShopeeProducts>
                 </Grid.Col>
             </Grid>
